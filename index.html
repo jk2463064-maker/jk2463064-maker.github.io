@@ -3,28 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Jimmy Tools - All in One</title>
+<title>Jimmy Tools - TinyWow Style</title>
 <style>
-body{background:#0f172a;color:#fff;font-family:sans-serif;text-align:center;padding:20px}
-h1{margin-bottom:10px}
-p{color:#94a3b8}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;max-width:700px;margin:30px auto}
-.card{background:#1e293b;padding:22px;border-radius:16px;text-decoration:none;color:#fff;font-weight:bold;font-size:16px;border:1px solid #334155}
-.card:hover{background:#334155}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui,sans-serif}
+body{background:#f8fafc}
+header{background:#fff;padding:16px 20px;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0}
+.logo{font-weight:900;font-size:20px} .logo span{color:#6366f1}
+.hero{text-align:center;padding:40px 20px}
+.hero h1{font-size:32px;font-weight:800}
+.hero p{color:#64748b;margin-top:8px}
+.search{max-width:500px;margin:20px auto;display:flex;background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden}
+.search input{flex:1;padding:14px;border:none;outline:none}
+.search button{background:#6366f1;color:#fff;border:none;padding:0 20px}
+.grid{max-width:900px;margin:0 auto;padding:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:20px;text-decoration:none;color:#0f172a;transition:.2s}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 20px rgba(0,0,0,.06);border-color:#6366f1}
+.card .icon{font-size:28px;margin-bottom:10px}
+.card h3{font-size:16px}
+.card p{font-size:12px;color:#64748b;margin-top:4px}
+.footer{text-align:center;padding:30px;color:#94a3b8;font-size:13px}
 </style>
 </head>
 <body>
-<h1>🚀 Jimmy's Tools</h1>
-<p>All Useful Tools in One Place</p>
+<header><div class="logo">Jimmy<span>Tools</span></div><div style="font-size:13px;color:#64748b">Made in Dhampur ❤️</div></header>
 
-<div class="grid">
-<a class="card" href="password/">🔐 Password Generator</a>
-<a class="card" href="downloader/">⬇️ Downloader</a>
-<a class="card" href="qr/">📱 QR Generator</a>
-<a class="card" href="fonts/">🔤 Stylish Fonts</a>
-<a class="card" href="movies/">🎬 Movies</a>
+<div class="hero">
+<h1>All-in-One Free Tools</h1>
+<p>No login. No limits. Just like TinyWow</p>
+<div class="search">
+<input type="text" placeholder="Search tools... e.g. password">
+<button>Search</button>
+</div>
 </div>
 
-<p style="margin-top:30px">Made in Dhampur ❤️</p>
+<div class="grid">
+<a class="card" href="password/"><div class="icon">🔐</div><h3>Password Generator</h3><p>Strong & secure passwords</p></a>
+<a class="card" href="downloader/"><div class="icon">⬇️</div><h3>Social Downloader</h3><p>Insta, FB, YT videos</p></a>
+<a class="card" href="qr/"><div class="icon">📱</div><h3>QR Generator</h3><p>Make QR in 1 sec</p></a>
+<a class="card" href="fonts/"><div class="icon">🔤</div><h3>Stylish Fonts</h3><p>Fancy text for bio</p></a>
+<a class="card" href="movies/"><div class="icon">🎬</div><h3>Movies Info</h3><p>Search any movie</p></a>
+</div>
+
+<div class="footer">Inspired by TinyWow.com - Built by Jimmy | 2026</div>
 </body>
 </html>
