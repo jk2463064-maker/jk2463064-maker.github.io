@@ -1,32 +1,26 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Jimmy - Developer</title>
-<style>
-body{background:#0f172a;color:#fff;font-family:sans-serif;text-align:center;padding:30px}
-a{color:white;text-decoration:none}
-.card{background:#1e293b;border:1px solid #334155;padding:20px;border-radius:14px;margin:15px auto;max-width:400px;display:block;text-align:left}
-.card b{font-size:16px} .card span{color:#94a3b8;font-size:13px}
-h1{margin-bottom:5px}
-</style>
-</head>
-<body>
-<h1>Jimmy 👨‍💻</h1>
-<p style="color:#94a3b8">My Tools & Projects</p>
-
-<a class="card" href="downloader/">
-<b>📥 Insta Video Downloader - LIVE ✅</b><br>
-<span>Download any Insta video in 1 click</span>
-</a>
-
-<a class="card" href="password/">
-<b>🔐 Password Generator - LIVE ✅</b><br>
-<span>Strong & Secure passwords in 1 click</span>
-</a>
-
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width">
+<title>Free Password Generator - Jimmy's Tools</title>
+<meta name="description" content="Generate strong secure passwords instantly - Free tool by Jimmy Dhampur">
+<style>body{background:#0f172a;color:#fff;font-family:sans-serif;text-align:center;padding:20px} .box{background:#1e293b;padding:20px;border-radius:12px;max-width:400px;margin:auto} input{width:90%;padding:12px;border-radius:8px;border:none;margin:10px 0;font-size:18px;text-align:center} button{padding:12px 20px;background:#22c55e;border:none;border-radius:8px;font-weight:bold;cursor:pointer;margin:5px} button:hover{background:#16a34a}</style></head><body>
+<h2>🔐 Password Generator</h2>
+<div class="box">
+<input id="pass" readonly placeholder="Click Generate">
+<br>
+<label>Length: <input type="number" id="len" value="16" min="6" max="50" style="width:60px"></label>
 <br><br>
-<a href="https://github.com/jk2463064-maker" style="color:#64748b;font-size:13px">GitHub Profile →</a>
-
-</body>
-</html>
+<button onclick="gen()">Generate</button>
+<button onclick="copy()">Copy</button>
+<p style="color:#94a3b8;font-size:12px">100% Secure - No password is stored</p>
+</div>
+<a href="../" style="color:#94a3b8;display:block;margin-top:20px">← Back to All Tools</a>
+<script>
+function gen(){
+let l=document.getElementById('len').value;
+let chars="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+let p=""; for(let i=0;i<l;i++){p+=chars.charAt(Math.floor(Math.random()*chars.length));}
+document.getElementById('pass').value=p;
+}
+function copy(){let p=document.getElementById('pass'); p.select(); document.execCommand('copy'); alert('Copied!');}
+gen();
+</script>
+</body></html>
