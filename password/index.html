@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Password Generator - Jimmy</title>
+<style>
+body{background:#0f172a;color:#fff;font-family:sans-serif;text-align:center;padding:20px}
+.box{background:#1e293b;padding:25px;border-radius:16px;max-width:400px;margin:auto;border:1px solid #334155}
+#pass{width:100%;padding:14px;background:#0f172a;border:1px solid #334155;border-radius:10px;color:#22c55e;font-size:18px;font-weight:bold;text-align:center;letter-spacing:1px;margin:15px 0}
+input[type=range]{width:100%}
+.row{display:flex;justify-content:space-between;margin:10px 0;font-size:14px}
+button{width:100%;padding:13px;border:none;border-radius:10px;font-weight:bold;cursor:pointer;margin-top:10px}
+.gen{background:#8b5cf6;color:#fff}
+.copy{background:#334155;color:#fff}
+.str{margin-top:12px;font-size:13px;padding:6px;border-radius:6px}
+.weak{background:#ef444422;color:#ef4444} .med{background:#eab30822;color:#eab308} .strong{background:#22c55e22;color:#22c55e}
+</style>
+</head>
+<body>
+<div class="box">
+<h2>🔐 Password Generator</h2>
+<input id="pass" readonly placeholder="Your password">
+<div class="row"><span>Length: <b id="lenVal">16</b></span><input id="len" type="range" min="6" max="32" value="16" style="width:60%" oninput="document.getElementById('lenVal').innerText=this.value; generate()"></div>
+<div class="row"><label><input type="checkbox" id="caps" checked> ABC (Capital)</label><label><input type="checkbox" id="nums" checked> 123</label></div>
+<div class="row"><label><input type="checkbox" id="syms" checked> @#$ Symbols</label><label><input type="checkbox" id="small" checked> abc</label></div>
+<button class="gen" onclick="generate()">Generate New ⚡</button>
+<button class="copy" onclick="copyPass()">Copy Password 📋</button>
+<div id="strength" class="str"></div>
+<br><a href="../" style="color:#94a3b8;text-decoration:none;font-size:13px">← Back to Portfolio</a>
+</div>
+<script>
+const abc="ABCDEFGHIJKLMNOPQRSTUVWXYZ", small="abcdefghijklmnopqrstuvwxyz", nums="0123456789", syms="!@#$%^&*()_+-=[]{}|;:,.<>?";
+function generate(){
+ let l=+document.getElementById('len').value;
+ let chars="";
+ if(document.getElementById('small').checked) chars+=small;
+ if(document.getElementById('caps').checked) chars+=abc;
+ if(document.getElementById('nums').checked) chars+=nums;
+ if(document.getElementById('syms').checked) chars+=syms;
+ if(!chars) chars=small+nums;
+ let p=""; for(let i=0;i<l;i++) p+=chars[Math.floor(Math.random()*chars.length)];
+ document.getElementById('pass').value=p;
+ let score=l; if(document.getElementById('caps').checked) score+=2; if(document.getElementById('syms').checked) score+=3; if(document.getElementById('nums').checked) score+=2;
+ let s=document.getElementById('strength');
+ if(score<12){s.textContent="Weak ❌"; s.className="str weak";}
+ else if(score<18){s.textContent="Medium ⚠️ - Better karo"; s.className="str med";}
+ else {s.textContent="Strong ✅ - Hacker proof!"; s.className="str strong";}
+}
+function copyPass(){
+ let v=document.getElementById('pass'); v.select(); navigator.clipboard.writeText(v.value);
+ alert('Copied: '+v.value);
+}
+generate();
+</script>
+</body>
+</html>
