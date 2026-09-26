@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html><head><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Movie Hub - Jimmy</title>
+<style>
+body{background:#0f172a;color:#fff;font-family:sans-serif;padding:20px;text-align:center}
+input{padding:14px;width:90%;max-width:400px;border-radius:10px;border:1px solid #334155;background:#1e293b;color:#fff;font-size:16px}
+button{padding:12px 18px;background:#22c55e;border:0;border-radius:8px;font-weight:bold;cursor:pointer;margin-left:8px}
+.card{background:#1e293b;border:1px solid #334155;max-width:600px;margin:20px auto;padding:16px;border-radius:12px;text-align:left;display:flex;gap:15px}
+.card img{width:120px;border-radius:8px}
+a{color:#94a3b8;text-decoration:none}
+.badge{background:#334155;padding:4px 8px;border-radius:6px;font-size:12px;margin-right:5px}
+</style>
+</head><body>
+<h2>🎬 Movie Hub by Jimmy</h2>
+<p style="color:#94a3b8">Search any movie - Trailer + Where to Watch</p>
+<input id="q" placeholder="Ex: Leo, Jawan, Animal..." value="Leo">
+<button onclick="search()">Search</button>
+<div id="out"></div>
+<a href="../">← Back to Home</a>
+
+<script>
+async function search(){
+ let query=document.getElementById('q').value;
+ if(!query) return;
+ document.getElementById('out').innerHTML='<p style="color:#94a3b8">Searching...</p>';
+ // Free OMDb API - apikey demo (user should get own from omdbapi.com/apikey.html)
+ let res=await fetch(`https://www.omdbapi.com/?t=${encodeURIComponent(query)}&apikey=thewdb`);
+ let data=await res.json();
+ if(data.Response==='False'){
+  document.getElementById('out').innerHTML=`<p>${data.Error}</p>`;
+  return;
+ }
+ document.getElementById('out').innerHTML=`
+  <div class="card">
+    <img src="${data.Poster}">
+    <div>
+      <h3 style="margin:0">${data.Title} (${data.Year})</h3>
+      <p><span class="badge">⭐ ${data.imdbRating}</span><span class="badge">${data.Runtime}</span><span class="badge">${data.Genre}</span></p>
+      <p style="color:#cbd5e1;font-size:14px">${data.Plot}</p>
+      <p style="font-size:13px;color:#94a3b8">Cast: ${data.Actors}<br>Director: ${data.Director}</p>
+      <a href="https://www.youtube.com/results?search_query=${encodeURIComponent(data.Title+' official trailer')}" target="_blank" style="display:inline-block;background:#ef4444;color:white;padding:8px 12px;border-radius:8px;margin-top:8px;text-decoration:none">▶️ Watch Trailer</a>
+      <a href="https://www.justwatch.com/in/search?q=${encodeURIComponent(data.Title)}" target="_blank" style="display:inline-block;background:#1e293b;border:1px solid #334155;color:white;padding:8px 12px;border-radius:8px;margin-top:8px;text-decoration:none;margin-left:6px">📺 Where to Watch</a>
+    </div>
+  </div>
+  <p style="color:#64748b;font-size:12px">Data from OMDb + YouTube + JustWatch (100% legal)</p>
+ `;
+}
+search();
+</script>
+</body></html>
