@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jimmy Downloader</title>
+<style>
+body{background:#111;color:#fff;font-family:sans-serif;text-align:center;padding:30px}
+.box{background:#1e1e1e;padding:25px;border-radius:15px;max-width:400px;margin:auto}
+input{width:90%;padding:12px;border-radius:8px;border:none;margin:10px 0}
+button{padding:12px;width:95%;background:#E1306C;border:none;border-radius:8px;color:#fff;font-weight:bold;cursor:pointer}
+a.btn{display:block;margin-top:10px;padding:12px;background:#2e2e2e;color:#fff;text-decoration:none;border-radius:8px}
+</style>
+</head>
+<body>
+<div class="box">
+<h2>📥 Insta Downloader</h2>
+<input id="link" placeholder="Insta link yahan paste karo">
+<button onclick="go()">Get Download Link</button>
+<div id="out"></div>
+<p style="font-size:12px;color:#aaa;margin-top:15px">Only for your own videos</p>
+</div>
+<script>
+function go(){
+let u=document.getElementById('link').value.trim();
+if(!u){alert('Link daal pehle');return;}
+let e=encodeURIComponent(u);
+document.getElementById('out').innerHTML = `
+<br>✅ Link ready hai:<br>
+<a class='btn' href='https://igram.world/en/video?url=${e}' target='_blank'>Server 1 - Download</a>
+<a class='btn' href='https://saveinsta.app/en?url=${e}' target='_blank'>Server 2 - Download</a>
+<p style='font-size:12px;margin-top:10px'>Agar ek server na khule to dusra try kar</p>
+`;
+}
+</script>
+</body>
+</html>
