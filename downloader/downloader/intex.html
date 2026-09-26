@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Downloader - Jimmy</title>
+<style>
+body{font-family:Arial;background:#0f172a;color:#fff;text-align:center;padding:40px}
+.box{background:#1e293b;padding:25px;border-radius:15px;max-width:400px;margin:auto}
+input{width:90%;padding:12px;border-radius:8px;border:none;margin:10px 0}
+button{padding:12px;width:95%;background:#38bdf8;border:none;border-radius:8px;font-weight:bold;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="box">
+<h2>📥 Insta Tool</h2>
+<input id="link" placeholder="Insta link paste karo">
+<button onclick="go()">Download</button>
+<p id="out"></p>
+</div>
+<script>
+function go(){
+ let l=document.getElementById('link').value;
+ if(!l) return alert('Link daal');
+ document.getElementById('out').innerHTML = "<br>✅ Link mil gaya!<br><br><a href='https://snapinsta.app/download?url="+encodeURIComponent(l)+"' target='_blank' style='color:#38bdf8'>Yahan click karke Download karo</a><br><br><small>Note: GitHub Pages pe direct download Instagram block karta hai, isliye ye safe redirect method hai</small>";
+}
+</script>
+</body>
+</html>
