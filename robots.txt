@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://jk2463064-maker.github.io/sitemap.xml
