@@ -17,14 +17,12 @@ a{color:#94a3b8;text-decoration:none}
 <button onclick="search()">Search</button>
 <div id="out"></div>
 <a href="../">← Back to Home</a>
-
 <script>
 async function search(){
  let query=document.getElementById('q').value;
  if(!query) return;
  document.getElementById('out').innerHTML='<p style="color:#94a3b8">Searching...</p>';
- // Free OMDb API - apikey demo (user should get own from omdbapi.com/apikey.html)
- let res=await fetch(`https://www.omdbapi.com/?t=${encodeURIComponent(query)}&apikey=thewdb`);
+ let res=await fetch(`https://www.omdbapi.com/?t=${encodeURIComponent(query)}&apikey=1a5fe574`);
  let data=await res.json();
  if(data.Response==='False'){
   document.getElementById('out').innerHTML=`<p>${data.Error}</p>`;
