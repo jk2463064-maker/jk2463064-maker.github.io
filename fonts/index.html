@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html><head><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insta Fonts</title>
+<style>body{background:#0f172a;color:#fff;font-family:sans-serif;padding:20px;text-align:center}
+input{padding:14px;width:90%;max-width:400px;border-radius:10px;border:1px solid #334155;background:#1e293b;color:#fff;font-size:16px}
+.box{background:#1e293b;border:1px solid #334155;padding:12px;border-radius:10px;margin:10px auto;max-width:500px;display:flex;justify-content:space-between;align-items:center}
+.box span{font-size:20px}
+button{background:#22c55e;border:0;padding:6px 10px;border-radius:6px;font-weight:bold}
+a{color:#94a3b8;text-decoration:none}</style>
+</head><body>
+<h2>✨ Insta Stylish Fonts</h2>
+<input id="t" placeholder="Jimmy likho yaha..." oninput="gen()" value="Jimmy">
+<div id="out" style="margin-top:20px"></div>
+<a href="../">← Back</a>
+<script>
+function gen(){
+let v=document.getElementById('t').value||'Jimmy';
+let styles=[
+v.split('').map(c=>c+'\u0305').join(''),
+'𝓙𝓲𝓶𝓶𝔂'.replace(/./g, _=> v.split('').map(c=>'𝓪𝓫𝓬𝓭𝓮𝓯𝓰𝓱𝓲𝓳𝓴𝓵𝓶𝓷𝓸𝓹𝓺𝓻𝓼𝓽𝓾𝓿𝔀𝔁𝔂𝔃'['abcdefghijklmnopqrstuvwxyz'.indexOf(c.toLowerCase())]||c).join('')),
+'𝐉𝐢𝐦𝐦𝐲'.replace(/Jim/,'').replace(/Jimmy/,v.toUpperCase()),
+'𝕁𝕚𝕞𝕞𝕪',
+'𝙹𝚒𝚖𝚢',
+'Ｊｉｍｍｙ',
+'🅹🅸🅼🆈',
+'ᴊɪᴍʏ',
+'𝕵𝖎𝖒𝖞'
+];
+let mapFancy = s => {
+let f = {'a':'𝓪','b':'𝓫','c':'𝓬','d':'𝓭','e':'𝓮','f':'𝓯','g':'𝓰','h':'𝓱','i':'𝓲','j':'𝓳','k':'𝓴','l':'𝓵','m':'𝓶','n':'𝓷','o':'𝓸','p':'𝓹','q':'𝓺','r':'𝓻','s':'𝓼','t':'𝓽','u':'𝓾','v':'𝓿','w':'𝔀','x':'𝔁','y':'𝔂','z':'𝔃'};
+return s.toLowerCase().split('').map(ch=>f[ch]||ch).join('');
+};
+let finalStyles = [mapFancy(v), v.toUpperCase().split('').join(' '), '『 '+v+' 』', '★ '+v+' ★', '꧁ '+v+' ꧂', '𝕮'+v.slice(1), '𝓛'+v];
+let html='';
+finalStyles.forEach(st=>{
+html+=`<div class="box"><span>${st}</span><button onclick="navigator.clipboard.writeText('${st.replace(/'/g,'')}');this.innerText='Done!'">COPY</button></div>`;
+});
+document.getElementById('out').innerHTML=html;
+}
+gen();
+</script>
+</body></html>
