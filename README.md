@@ -11,4 +11,5 @@ Live at: https://jk2463064-maker.github.io
 - [Movie Hub](https://jk2463064-maker.github.io/movies/) - live ✅ NEW 🎬
   - [SSC Mocks](https://jk2463064-maker.github.io/ssc/) - live ✅ NEW 📚
 - [Music Hub](https://jk2463064-maker.github.io/music/) - live ✅ NEW 🎵
+- - [YT Thumbnail Downloader](https://jk2463064-maker.github.io/yt-thumbnail/) - live ✅ NEW 🖼️
 Made with ❤️ by Jimmy | 19 | Dhampur, UP
