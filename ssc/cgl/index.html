@@ -34,9 +34,10 @@ ${q.o.map((x,j)=>`<div class='opt ${ans[i]==j?'sel':''}' onclick='ans[${i}]=${j}
 }
 function next(){if(i<questions.length-1){i++;render()}else{finish()}}
 function finish(){
-let c=0;questions.forEach((q,k)=>{if(ans[k]==q.a)c++});
+let c=0;questions.forEach((q,k)=>{if(ans[k]==q.a)c++;});
 let sc=c*2-(Object.keys(ans).length-c)*0.5;
-document.getElementById('app').innerHTML=`<center><h2>Result</h2><h1 style='color:#7c3aed;font-size:42px'>${sc}/20</h1><p>Correct: ${c}/${questions.length}</p><button class='btn' onclick='location.reload()'>Retry</button><br><br><a href='../'>All Mocks</a></center>`;
+let msg=`*SSC CGL Mock Result* 🎯%0AScore: ${sc}/20%0ACorrect: ${c}/${questions.length}%0ATry karo: ${location.href}`;
+document.getElementById('app').innerHTML=`<center><h2>Result</h2><h1 style="color:#7c3aed;font-size:42px">${sc}/20</h1><p>Correct: ${c}/${questions.length}</p><a href='https://wa.me/?text=${msg}' target='_blank' style='display:block;background:#25D366;color:#fff;padding:12px;border-radius:10px;text-decoration:none;font-weight:700;margin:10px 0'>WhatsApp pe Share 📱</a><button class='btn' onclick='location.reload()'>Retry 🔄</button><br><br><a href='../'>All Mocks</a></center>`;
 clearInterval(iv);
 }
 iv=setInterval(()=>{t--;document.getElementById('timer').innerText=Math.floor(t/60)+":"+(t%60<10?'0':'')+t%60;if(t<=0)finish()},1000);
