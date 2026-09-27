@@ -66,7 +66,7 @@ body{background:#f8f9ff;color:#0f172a}
 <script>
 function filter(){
 let v=document.getElementById('search').value.toLowerCase();
-document.querySelectorAll('.card').forEach(c=>{
+document.querySelectorAll('.card, div[onclick]').forEach(c=>{
 c.style.display=c.innerText.toLowerCase().includes(v)?'':'none';
 });
 }
