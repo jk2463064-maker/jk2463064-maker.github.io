@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SSC CGL Mock Test 1 Free</title>
+<style>
+*{box-sizing:border-box;font-family:system-ui}body{margin:0;background:#f8f9ff}
+.top{background:#fff;padding:10px 14px;position:sticky;top:0;display:flex;justify-content:space-between;border-bottom:1px solid #eee}
+#timer{background:#7c3aed;color:#fff;padding:5px 12px;border-radius:20px;font-weight:700}
+.box{max-width:600px;margin:16px auto;background:#fff;border-radius:16px;padding:18px}
+.opt{border:1px solid #e2e8f0;padding:10px;border-radius:8px;margin:7px 0;cursor:pointer}
+.opt.sel{border-color:#7c3aed;background:#f5f3ff}
+.btn{background:#7c3aed;color:#fff;border:0;padding:12px;width:100%;border-radius:10px;font-weight:700;margin-top:10px}
+</style></head><body>
+<div class="top"><a href="../">← Back</a><div id="timer">60:00</div><b id="ename">CGL MOCK-1</b></div>
+<div class="box" id="app"></div>
+<script>
+const questions=[
+{q:"Who is Father of Constitution?",o:["Gandhi","Ambedkar","Nehru","Patel"],a:1},
+{q:"Article 370 was about?",o:["J&K","Reservation","Education","Finance"],a:0},
+{q:"LCM of 12,18?",o:["36","24","54","12"],a:0},
+{q:"Synonym of Brave?",o:["Coward","Courageous","Lazy","Weak"],a:1},
+{q:"Panipat-1 year?",o:["1526","1556","1761","1757"],a:0},
+{q:"5+5*5=?",o:["50","30","25","35"],a:1},
+{q:"Capital of Australia?",o:["Sydney","Melbourne","Canberra","Perth"],a:2},
+{q:"GCD 24,36?",o:["12","6","18","24"],a:0},
+{q:"Harappa on?",o:["Indus","Ravi","Yamuna","Ganga"],a:1},
+{q:"SP 100 profit 25% CP?",o:["75","80","90","85"],a:1}
+];
+let i=0,ans={},t=3600,iv;
+function render(){
+let q=questions[i];
+document.getElementById('app').innerHTML=`<b>Q${i+1}/${questions.length}</b> - ${q.q}<br><br>
+${q.o.map((x,j)=>`<div class='opt ${ans[i]==j?'sel':''}' onclick='ans[${i}]=${j};render()'>${x}</div>`).join('')}
+<button class='btn' onclick='next()'>${i==questions.length-1?'Submit Mock':'Next'}</button>`;
+}
+function next(){if(i<questions.length-1){i++;render()}else{finish()}}
+function finish(){
+let c=0;questions.forEach((q,k)=>{if(ans[k]==q.a)c++});
+let sc=c*2-(Object.keys(ans).length-c)*0.5;
+document.getElementById('app').innerHTML=`<center><h2>Result</h2><h1 style='color:#7c3aed;font-size:42px'>${sc}/20</h1><p>Correct: ${c}/${questions.length}</p><button class='btn' onclick='location.reload()'>Retry</button><br><br><a href='../'>All Mocks</a></center>`;
+clearInterval(iv);
+}
+iv=setInterval(()=>{t--;document.getElementById('timer').innerText=Math.floor(t/60)+":"+(t%60<10?'0':'')+t%60;if(t<=0)finish()},1000);
+render();
+</script></body></html>
