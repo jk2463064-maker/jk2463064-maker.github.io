@@ -182,23 +182,31 @@ render(c);
     let url = `https://www.youtube.com/results?search_query=${encodeURIComponent(name + " official trailer")}`;
     window.open(url, "_blank");
     }
-async function loadAllPosters(force=false){
-  console.log("Fixing posters...");
-  for(let m of movies){
-    if(!m.poster || force){
-      let info=await getIMDbInfo(m.name);
-      console.log(m.name, info);
-      if(info.poster){
-        m.poster=info.poster; 
-        if(info.rating!="N/A") m.rating=info.rating;
-        m.year=info.year;
-        localStorage.setItem('jimmy_100_final',JSON.stringify(movies));
-        render(currentFilter);
-      }
-      await new Promise(r=>setTimeout(r,500));
+async function getIMDbInfo(name){
+  // map for short names
+  const fix = {
+    "Mission Impossible 7": "Mission Impossible Dead Reckoning",
+    "Doctor Strange 2": "Doctor Strange Multiverse of Madness",
+    "Black Panther 2": "Black Panther Wakanda Forever",
+    "John Wick 4": "John Wick Chapter 4"
+  };
+  let q = fix[name] || name;
+  try{
+    // Free API - no key needed
+    let r = await fetch(`https://theapache64.xyz/movie_db/search?keyword=${encodeURIComponent(q)}`);
+    let d = await r.json();
+    if(!d.error && d.data && d.data.poster_url && d.data.poster_url!="N/A"){
+      return {rating: d.data.rating || "N/A", poster: d.data.poster_url, year: d.data.year || ""};
     }
-  }
-  alert("Posters Fixed!");
+  }catch(e){ console.log("free api fail", e); }
+
+  // fallback - OMDB with demo key
+  try{
+    let r2 = await fetch(`https://www.omdbapi.com/?t=${encodeURIComponent(q)}&apikey=thewdb`);
+    let d2 = await r2.json();
+    if(d2.Response=="True" && d2.Poster!="N/A") return {rating:d2.imdbRating, poster:d2.Poster, year:d2.Year};
+  }catch(e){}
+  return {rating:"N/A", poster:"", year:""};
 }
 render();
 loadAllPosters();
