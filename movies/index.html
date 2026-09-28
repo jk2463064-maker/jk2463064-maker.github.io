@@ -183,17 +183,22 @@ render(c);
     window.open(url, "_blank");
     }
 async function loadAllPosters(force=false){
+  console.log("Fixing posters...");
   for(let m of movies){
     if(!m.poster || force){
       let info=await getIMDbInfo(m.name);
+      console.log(m.name, info);
       if(info.poster){
-        m.poster=info.poster; m.rating=info.rating; m.year=info.year;
+        m.poster=info.poster; 
+        if(info.rating!="N/A") m.rating=info.rating;
+        m.year=info.year;
         localStorage.setItem('jimmy_100_final',JSON.stringify(movies));
         render(currentFilter);
       }
-      await new Promise(r=>setTimeout(r,400));
+      await new Promise(r=>setTimeout(r,500));
     }
   }
+  alert("Posters Fixed!");
 }
 render();
 loadAllPosters();
