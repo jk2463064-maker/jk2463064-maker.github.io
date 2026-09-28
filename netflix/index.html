@@ -12,34 +12,35 @@
 .card{min-width:135px;max-width:135px;background:#222;border-radius:8px;overflow:hidden;cursor:pointer;border:2px solid transparent}
 .card.active{border-color:#E50914;transform:scale(1.05)}
 .card img{width:100%;height:190px;object-fit:cover;background:#333}
-.card .t{padding:8px;font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tag{font-size:10px;color:#E50914;font-weight:800}
+.card.t{padding:8px;font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 </style></head><body>
-<div class="nav"><div class="logo">NOVASTREAM</div><div style="color:#666;font-size:11px">FULL MOVIES - NO TRAILER</div></div>
+<div class="nav"><div class="logo">NOVASTREAM</div><div style="color:#666;font-size:11px">FULL MOVIES</div></div>
 
 <div class="hero">
 <iframe id="mainPlayer" src="https://www.youtube.com/embed/aqz-KE-bpKQ?autoplay=1&mute=1" allowfullscreen></iframe>
-<div class="over"><h2 id="mtitle">Big Buck Bunny - Full Movie</h2><span class="tag">FULL MOVIE • CLICK ANY POSTER BELOW TO PLAY</span></div>
+<div class="over"><h2 id="mtitle">Big Buck Bunny - Full Movie</h2></div>
 </div>
 
-<div class="row"><h3>🔥 Full Movies - No Trailer, Full Film</h3><div class="scroll" id="list"></div></div>
+<div class="row"><h3>🔥 Full Movies - No Trailer</h3><div class="scroll" id="list"></div></div>
+
+<div style="padding:16px;background:#000;position:sticky;bottom:0;display:flex;gap:8px">
+  <input id="mName" placeholder="Movie Name" style="flex:1;padding:10px;border-radius:6px;border:0;background:#222;color:#fff">
+  <input id="mYt" placeholder="YouTube ID" style="flex:1;padding:10px;border-radius:6px;border:0;background:#222;color:#fff">
+  <button onclick="addNew()" style="background:#E50914;color:#fff;padding:10px 16px;border:0;border-radius:6px;font-weight:900">ADD</button>
+</div>
 
 <script>
-// PUBLIC DOMAIN + OPEN MOVIES - 100% FREE, NO COPYRIGHT STRIKE
 let movies=[
-{name:"Big Buck Bunny - Full",time:"10:34",yt:"aqz-KE-bpKQ",img:"https://image.tmdb.org/t/p/w300/uDcRWHJqyJB2v8A2Nv0qXv8E1a.jpg"},
-{name:"Sintel - Full Movie",time:"14:48",yt:"eRsGyueVLvQ",img:"https://image.tmdb.org/t/p/w300/gE8h2nUHh9a5qN1D8l6t.jpg"},
-{name:"Tears of Steel - Full",time:"12:14",yt:"R6MlUcmOul8",img:"https://image.tmdb.org/t/p/w300/or06FN3Dka5tukK1e9sl16pB.jpg"},
-{name:"Elephants Dream - Full",time:"10:54",yt:"TLkAoRQI1g",img:"https://image.tmdb.org/t/p/w300/1E5baAaEse26fej7uHcjHU.jpg"},
-{name:"Night of Living Dead",time:"1h 36m",yt:"H91BxkQl8y4",img:"https://image.tmdb.org/t/p/w300/w30.jpg"},
-{name:"Popeye vs Sinbad",time:"16 min",yt:"2BsU1v2v1",img:"https://image.tmdb.org/t/p/w300/9gk7.jpg"},
-{name:"The General (1926)",time:"1h 18m",yt:"CAw0e4e5e4",img:"https://image.tmdb.org/t/p/w300/1.jpg"},
-{name:"Charade Full",time:"1h 53m",yt:"h3h3h3h3h3",img:"https://image.tmdb.org/t/p/w300/v2loFA.jpg"},
-{name:"Big Buck Bunny 4K",time:"10:34",yt:"YE7VzlLtp-4",img:"https://image.tmdb.org/t/p/w300/uDcRWHJqyJB2v8A2Nv0qXv8E1a.jpg"},
-{name:"Sintel 4K Full",time:"14:48",yt:"9c6W4CU94",img:"https://image.tmdb.org/t/p/w300/gEU2C.jpg"},
-{name:"Agent 327 - Action",time:"4:00",yt:"mN0z8o4w",img:"https://image.tmdb.org/t/p/w300/or06F.jpg"},
-{name:"Spring - SciFi Action",time:"7:50",yt:"WhWc3b3KhnY",img:"https://image.tmdb.org/t/p/w300/w300.jpg"}
+{name:"Big Buck Bunny - Full",time:"10:34",yt:"aqz-KE-bpKQ",img:"https://peach.blender.org/wp-content/uploads/title_anouncement.jpg?x11217"},
+{name:"Sintel - Full Movie",time:"14:48",yt:"eRsGyueVLvQ",img:"https://img.youtube.com/vi/eRsGyueVLvQ/hqdefault.jpg"},
+{name:"Tears of Steel - Full",time:"12:14",yt:"R6MlUcmOul8",img:"https://img.youtube.com/vi/R6MlUcmOul8/hqdefault.jpg"},
+{name:"Elephants Dream - Full",time:"10:54",yt:"TLkAORQI1g",img:"https://img.youtube.com/vi/TLkAORQI1g/hqdefault.jpg"},
+{name:"Night of Living Dead",time:"1h 36m",yt:"H91BxkQl8y4",img:"https://img.youtube.com/vi/H91BxkQl8y4/hqdefault.jpg"}
 ];
+
+// saved load
+let saved=localStorage.getItem('nova_movies');
+if(saved){ movies=JSON.parse(saved); }
 
 function render(){
  document.getElementById('list').innerHTML=movies.map((m,i)=>`
@@ -50,11 +51,24 @@ function render(){
 }
 function play(i){
  let m=movies[i];
- document.getElementById('mtitle').innerText=m.name+" - Full Movie";
+ document.getElementById('mtitle').innerText=m.name;
  document.getElementById('mainPlayer').src=`https://www.youtube.com/embed/${m.yt}?autoplay=1`;
  document.querySelectorAll('.card').forEach(c=>c.classList.remove('active'));
  document.getElementById('c'+i).classList.add('active');
  window.scrollTo(0,0);
+}
+function addNew(){
+  let name=document.getElementById('mName').value;
+  let yt=document.getElementById('mYt').value;
+  if(!name ||!yt) return alert("Naam aur YouTube ID daal!");
+  if(yt.includes("v=")) yt=yt.split("v=")[1].split("&")[0];
+  if(yt.includes("youtu.be/")) yt=yt.split("youtu.be/")[1];
+  movies.push({name:name, yt:yt, time:"Full", img:`https://img.youtube.com/vi/${yt}/hqdefault.jpg`});
+  localStorage.setItem('nova_movies', JSON.stringify(movies));
+  render();
+  document.getElementById('mName').value="";
+  document.getElementById('mYt').value="";
+  alert("Added! Ab Commit changes dabaa de");
 }
 render();
 </script>
