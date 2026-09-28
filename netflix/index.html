@@ -58,17 +58,18 @@ function play(i){
  window.scrollTo(0,0);
 }
 function addNew(){
-  let name=document.getElementById('mName').value;
-  let yt=document.getElementById('mYt').value;
-  if(!name ||!yt) return alert("Naam aur YouTube ID daal!");
-  if(yt.includes("v=")) yt=yt.split("v=")[1].split("&")[0];
+  let name=document.getElementById('mName').value.trim();
+  let yt=document.getElementById('mYt').value.trim();
+  if(!yt) return alert("Link daal pehle!");
   if(yt.includes("youtu.be/")) yt=yt.split("youtu.be/")[1].split("?")[0];
+  if(yt.includes("v=")) yt=yt.split("v=")[1].split("&")[0];
+  if(!name) name="Movie "+yt;
   movies.push({name:name, yt:yt, time:"Full", img:`https://img.youtube.com/vi/${yt}/hqdefault.jpg`});
   localStorage.setItem('nova_movies', JSON.stringify(movies));
   render();
   document.getElementById('mName').value="";
   document.getElementById('mYt').value="";
-  alert("Added! Ab Commit changes dabaa de");
+  alert("Ho gayi add!");
 }
 render();
 </script>
