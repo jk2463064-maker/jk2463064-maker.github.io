@@ -142,16 +142,14 @@ let defaultMovies = [
   {id:99, name:"Dasara", cat:"south", must:72, one:18, bakar:10},
   {id:100, name:"Hi Nanna", cat:"south", must:78, one:16, bakar:6}
 ];
-let movies = JSON.parse(localStorage.getItem('jimmy_movies') || JSON.stringify(defaultMovies));
-];
-let movies = JSON.parse(localStorage.getItem('jimmy_movies') || JSON.stringify(defaultMovies));
+let movies = JSON.parse(localStorage.getItem('jimmy_movies_v3') || JSON.stringify(defaultMovies));
 
 function addMovie(){
   let name = document.getElementById('movieName').value;
   let cat = document.getElementById('movieCat').value;
   if(!name) return alert("Naam toh likh bhai");
   movies.unshift({id:Date.now(), name, cat, must:0, one:0, bakar:0});
-  localStorage.setItem('jimmy_movies', JSON.stringify(movies));
+  localStorage.setItem('jimmy_movies_v3', JSON.stringify(movies));
   document.getElementById('movieName').value='';
   render();
 }
@@ -159,7 +157,7 @@ function addMovie(){
 function vote(id, type){
   let m = movies.find(x=>x.id==id);
   m[type]++;
-  localStorage.setItem('jimmy_movies', JSON.stringify(movies));
+  localStorage.setItem('jimmy_movies_v3', JSON.stringify(movies));
   render();
 }
 
@@ -186,9 +184,8 @@ function render(filter='all'){
         </div>
       </div>
     </div>`
-  }).join('') || '<p class="text-gray-500">Koi movie nahi, upar se add kar.</p>';
+  }).join('');
 }
-
 function filterCat(c){
   document.querySelectorAll('.cat-btn').forEach(b=>b.classList.replace('bg-purple-600','bg-zinc-800'));
   event.target.classList.replace('bg-zinc-800','bg-purple-600');
