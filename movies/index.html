@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dekhu Ya Nahi? - JimmyTools</title>
+<title>about movie- JimmyTools</title>
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-[#0f0f13] text-white min-h-screen p-4">
@@ -35,7 +35,116 @@
 </div>
 
 <script>
-let movies = JSON.parse(localStorage.getItem('jimmy_movies') || '[]');
+let defaultMovies = [
+  // BOLLYWOOD - 34 Movies
+  {id:1, name:"Jawan", cat:"bollywood", must:78, one:15, bakar:7},
+  {id:2, name:"Pathaan", cat:"bollywood", must:72, one:18, bakar:10},
+  {id:3, name:"Animal", cat:"bollywood", must:45, one:30, bakar:25},
+  {id:4, name:"12th Fail", cat:"bollywood", must:95, one:4, bakar:1},
+  {id:5, name:"Dunki", cat:"bollywood", must:40, one:35, bakar:25},
+  {id:6, name:"Stree 2", cat:"bollywood", must:82, one:13, bakar:5},
+  {id:7, name:"Gadar 2", cat:"bollywood", must:55, one:25, bakar:20},
+  {id:8, name:"Fighter", cat:"bollywood", must:50, one:30, bakar:20},
+  {id:9, name:"Sam Bahadur", cat:"bollywood", must:68, one:22, bakar:10},
+  {id:10, name:"Shaitaan", cat:"bollywood", must:60, one:25, bakar:15},
+  {id:11, name:"Crew", cat:"bollywood", must:62, one:28, bakar:10},
+  {id:12, name:"Article 370", cat:"bollywood", must:70, one:20, bakar:10},
+  {id:13, name:"Bade Miyan Chote Miyan", cat:"bollywood", must:15, one:20, bakar:65},
+  {id:14, name:"Maidaan", cat:"bollywood", must:66, one:24, bakar:10},
+  {id:15, name:"Laapataa Ladies", cat:"bollywood", must:88, one:10, bakar:2},
+  {id:16, name:"Chandu Champion", cat:"bollywood", must:64, one:26, bakar:10},
+  {id:17, name:"Munjya", cat:"bollywood", must:58, one:27, bakar:15},
+  {id:18, name:"Kill", cat:"bollywood", must:80, one:15, bakar:5},
+  {id:19, name:"Singham Again", cat:"bollywood", must:48, one:27, bakar:25},
+  {id:20, name:"Bhool Bhulaiyaa 3", cat:"bollywood", must:52, one:30, bakar:18},
+  {id:21, name:"Rocky Aur Rani", cat:"bollywood", must:54, one:31, bakar:15},
+  {id:22, name:"OMG 2", cat:"bollywood", must:74, one:18, bakar:8},
+  {id:23, name:"Jailer 2 (Hindi)", cat:"bollywood", must:60, one:25, bakar:15},
+  {id:24, name:"Tiger 3", cat:"bollywood", must:42, one:33, bakar:25},
+  {id:25, name:"Dream Girl 2", cat:"bollywood", must:35, one:35, bakar:30},
+  {id:26, name:"Zara Hatke Zara Bachke", cat:"bollywood", must:56, one:29, bakar:15},
+  {id:27, name:"Satyaprem Ki Katha", cat:"bollywood", must:61, one:26, bakar:13},
+  {id:28, name:"Tu Jhoothi Main Makkaar", cat:"bollywood", must:50, one:32, bakar:18},
+  {id:29, name:"Adipurush", cat:"bollywood", must:8, one:12, bakar:80},
+  {id:30, name:"Brahmastra", cat:"bollywood", must:38, one:32, bakar:30},
+  {id:31, name:"KGF 2 Hindi", cat:"bollywood", must:85, one:10, bakar:5},
+  {id:32, name:"Kantara Hindi", cat:"bollywood", must:89, one:8, bakar:3},
+  {id:33, name:"Drishyam 2", cat:"bollywood", must:86, one:11, bakar:3},
+  {id:34, name:"Kashmir Files", cat:"bollywood", must:72, one:18, bakar:10},
+
+  // HOLLYWOOD - 33 Movies
+  {id:35, name:"Avengers Endgame", cat:"hollywood", must:92, one:6, bakar:2},
+  {id:36, name:"Oppenheimer", cat:"hollywood", must:85, one:10, bakar:5},
+  {id:37, name:"John Wick 4", cat:"hollywood", must:88, one:9, bakar:3},
+  {id:38, name:"Spider-Man No Way Home", cat:"hollywood", must:90, one:7, bakar:3},
+  {id:39, name:"Deadpool & Wolverine", cat:"hollywood", must:89, one:8, bakar:3},
+  {id:40, name:"The Batman", cat:"hollywood", must:84, one:11, bakar:5},
+  {id:41, name:"Avatar 2", cat:"hollywood", must:75, one:18, bakar:7},
+  {id:42, name:"Mission Impossible 7", cat:"hollywood", must:80, one:15, bakar:5},
+  {id:43, name:"Barbie", cat:"hollywood", must:55, one:30, bakar:15},
+  {id:44, name:"Fast X", cat:"hollywood", must:35, one:30, bakar:35},
+  {id:45, name:"Dune 2", cat:"hollywood", must:87, one:10, bakar:3},
+  {id:46, name:"Godzilla x Kong", cat:"hollywood", must:60, one:25, bakar:15},
+  {id:47, name:"Inside Out 2", cat:"hollywood", must:83, one:12, bakar:5},
+  {id:48, name:"Joker 2", cat:"hollywood", must:45, one:25, bakar:30},
+  {id:49, name:"Aquaman 2", cat:"hollywood", must:38, one:32, bakar:30},
+  {id:50, name:"The Marvels", cat:"hollywood", must:20, one:30, bakar:50},
+  {id:51, name:"Interstellar", cat:"hollywood", must:96, one:3, bakar:1},
+  {id:52, name:"Inception", cat:"hollywood", must:94, one:5, bakar:1},
+  {id:53, name:"Avengers Infinity War", cat:"hollywood", must:93, one:5, bakar:2},
+  {id:54, name:"Titanic", cat:"hollywood", must:88, one:10, bakar:2},
+  {id:55, name:"Top Gun Maverick", cat:"hollywood", must:86, one:11, bakar:3},
+  {id:56, name:"Doctor Strange 2", cat:"hollywood", must:58, one:27, bakar:15},
+  {id:57, name:"Thor Love & Thunder", cat:"hollywood", must:30, one:30, bakar:40},
+  {id:58, name:"Black Panther 2", cat:"hollywood", must:62, one:23, bakar:15},
+  {id:59, name:"Guardians 3", cat:"hollywood", must:85, one:12, bakar:3},
+  {id:60, name:"Oppenheimer", cat:"hollywood", must:85, one:10, bakar:5},
+  {id:61, name:"Spider-Verse", cat:"hollywood", must:91, one:7, bakar:2},
+  {id:62, name:"The Flash", cat:"hollywood", must:28, one:32, bakar:40},
+  {id:63, name:"Ant-Man 3", cat:"hollywood", must:25, one:30, bakar:45},
+  {id:64, name:"Shazam 2", cat:"hollywood", must:22, one:28, bakar:50},
+  {id:65, name:"Indiana Jones 5", cat:"hollywood", must:40, one:30, bakar:30},
+  {id:66, name:"Wonka", cat:"hollywood", must:76, one:18, bakar:6},
+  {id:67, name:"Kung Fu Panda 4", cat:"hollywood", must:65, one:25, bakar:10},
+
+  // SOUTH INDIAN - 33 Movies
+  {id:68, name:"Pushpa 2", cat:"south", must:91, one:6, bakar:3},
+  {id:69, name:"KGF Chapter 2", cat:"south", must:88, one:8, bakar:4},
+  {id:70, name:"RRR", cat:"south", must:93, one:5, bakar:2},
+  {id:71, name:"Baahubali 2", cat:"south", must:90, one:7, bakar:3},
+  {id:72, name:"Salaar", cat:"south", must:70, one:18, bakar:12},
+  {id:73, name:"Leo", cat:"south", must:65, one:20, bakar:15},
+  {id:74, name:"Jailer", cat:"south", must:77, one:15, bakar:8},
+  {id:75, name:"Kalki 2898 AD", cat:"south", must:82, one:12, bakar:6},
+  {id:76, name:"Hanuman", cat:"south", must:79, one:14, bakar:7},
+  {id:77, name:"Devara", cat:"south", must:58, one:22, bakar:20},
+  {id:78, name:"Manjummel Boys", cat:"south", must:94, one:4, bakar:2},
+  {id:79, name:"Aavesham", cat:"south", must:81, one:13, bakar:6},
+  {id:80, name:"Premalu", cat:"south", must:86, one:11, bakar:3},
+  {id:81, name:"Maharaja", cat:"south", must:90, one:7, bakar:3},
+  {id:82, name:"Kantara", cat:"south", must:92, one:6, bakar:2},
+  {id:83, name:"Vikram", cat:"south", must:87, one:9, bakar:4},
+  {id:84, name:"Ponniyin Selvan 2", cat:"south", must:68, one:20, bakar:12},
+  {id:85, name:"Jawan (South Dub)", cat:"south", must:75, one:18, bakar:7},
+  {id:86, name:"Varisu", cat:"south", must:52, one:28, bakar:20},
+  {id:87, name:"Thunivu", cat:"south", must:55, one:25, bakar:20},
+  {id:88, name:"L2 Empuraan", cat:"south", must:73, one:17, bakar:10},
+  {id:89, name:"The Goat Life", cat:"south", must:84, one:11, bakar:5},
+  {id:90, name:"Ayalaan", cat:"south", must:60, one:25, bakar:15},
+  {id:91, name:"Captain Miller", cat:"south", must:62, one:23, bakar:15},
+  {id:92, name:"Raayan", cat:"south", must:66, one:22, bakar:12},
+  {id:93, name:"Greatest Of All Time", cat:"south", must:50, one:25, bakar:25},
+  {id:94, name:"Indian 2", cat:"south", must:28, one:22, bakar:50},
+  {id:95, name:"Lal Salaam", cat:"south", must:25, one:25, bakar:50},
+  {id:96, name:"Salar vs KGF", cat:"south", must:70, one:20, bakar:10},
+  {id:97, name:"Drishyam 3 (Malayalam)", cat:"south", must:88, one:9, bakar:3},
+  {id:98, name:"2018", cat:"south", must:85, one:12, bakar:3},
+  {id:99, name:"Dasara", cat:"south", must:72, one:18, bakar:10},
+  {id:100, name:"Hi Nanna", cat:"south", must:78, one:16, bakar:6}
+];
+let movies = JSON.parse(localStorage.getItem('jimmy_movies') || JSON.stringify(defaultMovies));
+];
+let movies = JSON.parse(localStorage.getItem('jimmy_movies') || JSON.stringify(defaultMovies));
 
 function addMovie(){
   let name = document.getElementById('movieName').value;
