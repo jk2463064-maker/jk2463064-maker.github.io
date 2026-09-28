@@ -3,94 +3,186 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>about movie- JimmyTools</title>
+<title>Dekhu Ya Nahi - Jimmy</title>
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-[#0f0f13] text-white min-h-screen p-4">
-<div class="max-w-6xl mx-auto">
-  <h1 class="text-3xl font-bold">🎬 Dekhu Ya Nahi?</h1>
-  <p class="text-gray-400">100 Movies • IMDb Rating Auto</p>
-  <div class="flex gap-2 my-6 flex-wrap">
-    <button onclick="filterCat('all')" class="cat-btn bg-purple-600 px-4 py-2 rounded-full">All 100</button>
-    <button onclick="filterCat('bollywood')" class="cat-btn bg-zinc-800 px-4 py-2 rounded-full">Bollywood</button>
-    <button onclick="filterCat('hollywood')" class="cat-btn bg-zinc-800 px-4 py-2 rounded-full">Hollywood</button>
-    <button onclick="filterCat('south')" class="cat-btn bg-zinc-800 px-4 py-2 rounded-full">South</button>
-  </div>
-  <div class="bg-zinc-900 p-4 rounded-xl mb-6 flex gap-2">
-    <input id="movieName" placeholder="Movie add kar - poster auto aayega" class="flex-1 bg-zinc-800 p-3 rounded-lg">
-    <select id="movieCat" class="bg-zinc-800 p-3 rounded-lg"><option value="bollywood">Bollywood</option><option value="hollywood">Hollywood</option><option value="south">South</option></select>
-    <button onclick="addMovie()" class="bg-purple-600 px-6 rounded-lg font-bold">Add</button>
-  </div>
-  <div id="movieGrid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+<div class="max-w-7xl mx-auto">
+<h1 class="text-3xl font-bold">🎬 Dekhu Ya Nahi?</h1>
+<p class="text-gray-400">100 Movies • IMDb Auto</p>
+<div class="flex gap-2 my-6 flex-wrap">
+<button onclick="filterCat('all')" class="cat-btn bg-purple-600 px-4 py-2 rounded-full">All 100</button>
+<button onclick="filterCat('bollywood')" class="cat-btn bg-zinc-800 px-4 py-2 rounded-full">Bollywood</button>
+<button onclick="filterCat('hollywood')" class="cat-btn bg-zinc-800 px-4 py-2 rounded-full">Hollywood</button>
+<button onclick="filterCat('south')" class="cat-btn bg-zinc-800 px-4 py-2 rounded-full">South</button>
+</div>
+<div class="bg-zinc-900 p-4 rounded-xl mb-6 flex gap-2">
+<input id="movieName" placeholder="Movie add kar - poster auto" class="flex-1 bg-zinc-800 p-3 rounded-lg">
+<select id="movieCat" class="bg-zinc-800 p-3 rounded-lg"><option value="bollywood">Bollywood</option><option value="hollywood">Hollywood</option><option value="south">South</option></select>
+<button onclick="addMovie()" id="addBtn" class="bg-purple-600 px-6 rounded-lg font-bold">Add</button>
+</div>
+<div id="movieGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
 </div>
 <script>
-const OMDB_KEY = "thewdb";
+const OMDB_KEY="thewdb";
 async function getIMDbInfo(name){
-  try{
-    let r = await fetch(`https://www.omdbapi.com/?t=${encodeURIComponent(name)}&apikey=${OMDB_KEY}`);
-    let d = await r.json();
-    if(d.Response=="True") return {rating:d.imdbRating, poster:d.Poster!="N/A"?d.Poster:"", year:d.Year};
-  }catch(e){}
-  return {rating:"N/A", poster:"", year:""};
-}let defaultMovies = [
-  {id:1, name:"Jawan", cat:"bollywood", must:78, one:15, bakar:7},
-  {id:2, name:"Pathaan", cat:"bollywood", must:72, one:18, bakar:10},
-  {id:3, name:"Animal", cat:"bollywood", must:45, one:30, bakar:25},
-  {id:4, name:"12th Fail", cat:"bollywood", must:95, one:4, bakar:1},
-  {id:5, name:"Dunki", cat:"bollywood", must:40, one:35, bakar:25},
-  // ... baki 95 same format me next line pe
-];
-let movies = JSON.parse(localStorage.getItem('jimmy_100_final') || JSON.stringify(defaultMovies));
-async function addMovie(){
-  let name=document.getElementById('movieName').value.trim();
-  let cat=document.getElementById('movieCat').value;
-  if(!name) return alert("Naam likh bhai");
-  let btn=document.querySelector('button[onclick="addMovie()"]'); btn.innerText="Fetching...";
-  let info=await getIMDbInfo(name);
-  movies.unshift({id:Date.now(), name, cat, must:0, one:0, bakar:0, rating:info.rating, poster:info.poster, year:info.year});
-  localStorage.setItem('jimmy_100_final', JSON.stringify(movies));
-  document.getElementById('movieName').value=''; btn.innerText="Add";
-  render();
+try{
+let r=await fetch(`https://www.omdbapi.com/?t=${encodeURIComponent(name)}&apikey=${OMDB_KEY}`);
+let d=await r.json();
+if(d.Response=="True") return {rating:d.imdbRating, poster:d.Poster!="N/A"?d.Poster:"", year:d.Year};
+}catch(e){}
+return {rating:"N/A", poster:"", year:""};
 }
-function vote(id,type){let m=movies.find(x=>x.id==id); m[type]++; localStorage.setItem('jimmy_100_final', JSON.stringify(movies)); render(currentFilter);}
+let defaultMovies=[
+{id:1,name:"Jawan",cat:"bollywood",must:78,one:15,bakar:7},
+{id:2,name:"Pathaan",cat:"bollywood",must:72,one:18,bakar:10},
+{id:3,name:"Animal",cat:"bollywood",must:45,one:30,bakar:25},
+{id:4,name:"12th Fail",cat:"bollywood",must:95,one:4,bakar:1},
+{id:5,name:"Dunki",cat:"bollywood",must:40,one:35,bakar:25},
+{id:6,name:"Stree 2",cat:"bollywood",must:82,one:13,bakar:5},
+{id:7,name:"Gadar 2",cat:"bollywood",must:55,one:25,bakar:20},
+{id:8,name:"Fighter",cat:"bollywood",must:50,one:30,bakar:20},
+{id:9,name:"Sam Bahadur",cat:"bollywood",must:68,one:22,bakar:10},
+{id:10,name:"Shaitaan",cat:"bollywood",must:60,one:25,bakar:15},
+{id:11,name:"Crew",cat:"bollywood",must:62,one:28,bakar:10},
+{id:12,name:"Article 370",cat:"bollywood",must:70,one:20,bakar:10},
+{id:13,name:"Maidaan",cat:"bollywood",must:66,one:24,bakar:10},
+{id:14,name:"Laapataa Ladies",cat:"bollywood",must:88,one:10,bakar:2},
+{id:15,name:"Kill",cat:"bollywood",must:80,one:15,bakar:5},
+{id:16,name:"Drishyam 2",cat:"bollywood",must:86,one:11,bakar:3},
+{id:17,name:"OMG 2",cat:"bollywood",must:74,one:18,bakar:8},
+{id:18,name:"Tiger 3",cat:"bollywood",must:42,one:33,bakar:25},
+{id:19,name:"Rocky Aur Rani",cat:"bollywood",must:54,one:31,bakar:15},
+{id:20,name:"Brahmastra",cat:"bollywood",must:38,one:32,bakar:30},
+{id:21,name:"KGF 2 Hindi",cat:"bollywood",must:85,one:10,bakar:5},
+{id:22,name:"The Kashmir Files",cat:"bollywood",must:72,one:18,bakar:10},
+{id:23,name:"Tu Jhoothi Main Makkaar",cat:"bollywood",must:50,one:32,bakar:18},
+{id:24,name:"Satyaprem Ki Katha",cat:"bollywood",must:61,one:26,bakar:13},
+{id:25,name:"Adipurush",cat:"bollywood",must:8,one:12,bakar:80},
+{id:26,name:"Dream Girl 2",cat:"bollywood",must:35,one:35,bakar:30},
+{id:27,name:"Zara Hatke Zara Bachke",cat:"bollywood",must:56,one:29,bakar:15},
+{id:28,name:"Chandu Champion",cat:"bollywood",must:64,one:26,bakar:10},
+{id:29,name:"Munjya",cat:"bollywood",must:58,one:27,bakar:15},
+{id:30,name:"Bade Miyan Chote Miyan",cat:"bollywood",must:15,one:20,bakar:65},
+{id:31,name:"Avengers Endgame",cat:"hollywood",must:92,one:6,bakar:2},
+{id:32,name:"Oppenheimer",cat:"hollywood",must:85,one:10,bakar:5},
+{id:33,name:"John Wick 4",cat:"hollywood",must:88,one:9,bakar:3},
+{id:34,name:"Spider-Man No Way Home",cat:"hollywood",must:90,one:7,bakar:3},
+{id:35,name:"Deadpool & Wolverine",cat:"hollywood",must:89,one:8,bakar:3},
+{id:36,name:"The Batman",cat:"hollywood",must:84,one:11,bakar:5},
+{id:37,name:"Avatar 2",cat:"hollywood",must:75,one:18,bakar:7},
+{id:38,name:"Dune 2",cat:"hollywood",must:87,one:10,bakar:3},
+{id:39,name:"Inside Out 2",cat:"hollywood",must:83,one:12,bakar:5},
+{id:40,name:"Interstellar",cat:"hollywood",must:96,one:3,bakar:1},
+{id:41,name:"Inception",cat:"hollywood",must:94,one:5,bakar:1},
+{id:42,name:"Titanic",cat:"hollywood",must:88,one:10,bakar:2},
+{id:43,name:"Top Gun Maverick",cat:"hollywood",must:86,one:11,bakar:3},
+{id:44,name:"Barbie",cat:"hollywood",must:55,one:30,bakar:15},
+{id:45,name:"Fast X",cat:"hollywood",must:35,one:30,bakar:35},
+{id:46,name:"Guardians 3",cat:"hollywood",must:85,one:12,bakar:3},
+{id:47,name:"Spider-Verse",cat:"hollywood",must:91,one:7,bakar:2},
+{id:48,name:"Joker",cat:"hollywood",must:84,one:12,bakar:4},
+{id:49,name:"Iron Man",cat:"hollywood",must:89,one:9,bakar:2},
+{id:50,name:"Avengers Infinity War",cat:"hollywood",must:93,one:5,bakar:2},
+{id:51,name:"Mission Impossible 7",cat:"hollywood",must:80,one:15,bakar:5},
+{id:52,name:"Wonka",cat:"hollywood",must:76,one:18,bakar:6},
+{id:53,name:"Doctor Strange 2",cat:"hollywood",must:58,one:27,bakar:15},
+{id:54,name:"Black Panther 2",cat:"hollywood",must:62,one:23,bakar:15},
+{id:55,name:"Thor Ragnarok",cat:"hollywood",must:86,one:11,bakar:3},
+{id:56,name:"Godzilla x Kong",cat:"hollywood",must:60,one:25,bakar:15},
+{id:57,name:"The Flash",cat:"hollywood",must:28,one:32,bakar:40},
+{id:58,name:"Ant-Man 3",cat:"hollywood",must:25,one:30,bakar:45},
+{id:59,name:"Avengers",cat:"hollywood",must:90,one:8,bakar:2},
+{id:60,name:"Captain America Civil War",cat:"hollywood",must:88,one:10,bakar:2},
+{id:61,name:"Pushpa 2",cat:"south",must:91,one:6,bakar:3},
+{id:62,name:"KGF Chapter 2",cat:"south",must:88,one:8,bakar:4},
+{id:63,name:"RRR",cat:"south",must:93,one:5,bakar:2},
+{id:64,name:"Baahubali 2",cat:"south",must:90,one:7,bakar:3},
+{id:65,name:"Salaar",cat:"south",must:70,one:18,bakar:12},
+{id:66,name:"Leo",cat:"south",must:65,one:20,bakar:15},
+{id:67,name:"Jailer",cat:"south",must:77,one:15,bakar:8},
+{id:68,name:"Kalki 2898 AD",cat:"south",must:82,one:12,bakar:6},
+{id:69,name:"Hanuman",cat:"south",must:79,one:14,bakar:7},
+{id:70,name:"Manjummel Boys",cat:"south",must:94,one:4,bakar:2},
+{id:71,name:"Kantara",cat:"south",must:92,one:6,bakar:2},
+{id:72,name:"Maharaja",cat:"south",must:90,one:7,bakar:3},
+{id:73,name:"Vikram",cat:"south",must:87,one:9,bakar:4},
+{id:74,name:"Premalu",cat:"south",must:86,one:11,bakar:3},
+{id:75,name:"Aavesham",cat:"south",must:81,one:13,bakar:6},
+{id:76,name:"2018",cat:"south",must:85,one:12,bakar:3},
+{id:77,name:"Dasara",cat:"south",must:72,one:18,bakar:10},
+{id:78,name:"Hi Nanna",cat:"south",must:78,one:16,bakar:6},
+{id:79,name:"Ponniyin Selvan 2",cat:"south",must:68,one:20,bakar:12},
+{id:80,name:"Varisu",cat:"south",must:52,one:28,bakar:20},
+{id:81,name:"Thunivu",cat:"south",must:55,one:25,bakar:20},
+{id:82,name:"The Goat Life",cat:"south",must:84,one:11,bakar:5},
+{id:83,name:"Captain Miller",cat:"south",must:62,one:23,bakar:15},
+{id:84,name:"Raayan",cat:"south",must:66,one:22,bakar:12},
+{id:85,name:"Indian 2",cat:"south",must:28,one:22,bakar:50},
+{id:86,name:"L2 Empuraan",cat:"south",must:73,one:17,bakar:10},
+{id:87,name:"Devara",cat:"south",must:58,one:22,bakar:20},
+{id:88,name:"Greatest Of All Time",cat:"south",must:50,one:25,bakar:25},
+{id:89,name:"Ayalaan",cat:"south",must:60,one:25,bakar:15},
+{id:90,name:"Salaar",cat:"south",must:70,one:18,bakar:12},
+{id:91,name:"Salaar",cat:"south",must:70,one:18,bakar:12},
+{id:92,name:"Kushi",cat:"south",must:55,one:25,bakar:20},
+{id:93,name:"Jawan South Dubbed",cat:"south",must:78,one:15,bakar:7},
+{id:94,name:"Jailer 2",cat:"south",must:60,one:25,bakar:15},
+{id:95,name:"Pushpa",cat:"south",must:88,one:8,bakar:4},
+{id:96,name:"Baahubali",cat:"south",must:89,one:8,bakar:3},
+{id:97,name:"Drishyam 2 Malayalam",cat:"south",must:90,one:7,bakar:3},
+{id:98,name:"Charlie 777",cat:"south",must:86,one:11,bakar:3},
+{id:99,name:"Vikrant Rona",cat:"south",must:60,one:25,bakar:15},
+{id:100,name:"Sita Ramam",cat:"south",must:88,one:9,bakar:3}
+];
+let movies=JSON.parse(localStorage.getItem('jimmy_100_final')||JSON.stringify(defaultMovies));
+async function addMovie(){
+let name=document.getElementById('movieName').value.trim();
+let cat=document.getElementById('movieCat').value;
+if(!name) return alert("Naam likh bhai");
+let btn=document.getElementById('addBtn'); btn.innerText="Loading...";
+let info=await getIMDbInfo(name);
+movies.unshift({id:Date.now(),name,cat,must:0,one:0,bakar:0,rating:info.rating,poster:info.poster,year:info.year});
+localStorage.setItem('jimmy_100_final',JSON.stringify(movies));
+document.getElementById('movieName').value=''; btn.innerText="Add";
+render();
+}
+function vote(id,type){let m=movies.find(x=>x.id==id); m[type]++; localStorage.setItem('jimmy_100_final',JSON.stringify(movies)); render(currentFilter);}
 let currentFilter='all';
 function render(filter='all'){
-  currentFilter=filter;
-  let grid=document.getElementById('movieGrid');
-  let filtered=filter=='all'?movies:movies.filter(m=>m.cat==filter);
-  grid.innerHTML=filtered.map(m=>{
-    let total=m.must+m.one+m.bakar||1; let mustP=Math.round(m.must/total*100);
-    let verdict=mustP>=50?'🔥 Must Watch': m.bakar> m.must && m.bakar>m.one?'💩 Bakar Hai':'👌 One Time';
-    return `<div class="bg-zinc-900 p-3 rounded-xl border border-zinc-800">
-    ${m.poster?`<img src="${m.poster}" class="w-full h-72 object-cover rounded-lg">`:`<div class="w-full h-72 bg-zinc-800 rounded-lg flex items-center justify-center text-4xl">🎬</div>`}
-    <h3 class="font-bold mt-2 truncate">${m.name} <span class="text-xs text-gray-500">${m.year||''}</span></h3>
-    <p class="text-xs text-yellow-400">⭐ ${m.rating||'N/A'} • ${m.cat}</p>
-    <p class="text-xs font-bold mt-1 ${mustP>=50?'text-green-400':'text-blue-400'}">${verdict} ${mustP}%</p>
-    <div class="flex gap-1 mt-2"><button onclick="vote(${m.id},'must')" class="flex-1 bg-green-900/50 text-green-300 py-1 rounded text-[11px]">Must ${m.must}</button><button onclick="vote(${m.id},'one')" class="flex-1 bg-blue-900/50 text-blue-300 py-1 rounded text-[11px]">One ${m.one}</button><button onclick="vote(${m.id},'bakar')" class="flex-1 bg-red-900/50 text-red-300 py-1 rounded text-[11px]">Bakar ${m.bakar}</button></div>
-    function filterCat(c){
-  document.querySelectorAll('.cat-btn').forEach(b=>b.className='cat-btn bg-zinc-800 px-4 py-2 rounded-full');
-  event.target.className='cat-btn bg-purple-600 px-4 py-2 rounded-full';
-  render(c);
+currentFilter=filter;
+let grid=document.getElementById('movieGrid');
+let filtered=filter=='all'?movies:movies.filter(m=>m.cat==filter);
+grid.innerHTML=filtered.map(m=>{
+let total=m.must+m.one+m.bakar||1; let mustP=Math.round(m.must/total*100);
+let verdict=mustP>=50?'🔥 Must Watch': m.bakar>m.must && m.bakar>m.one?'💩 Bakar Hai':'👌 One Time';
+return `<div class="bg-zinc-900 p-3 rounded-xl border border-zinc-800">
+${m.poster?`<img src="${m.poster}" class="w-full h-72 object-cover rounded-lg">`:`<div class="w-full h-72 bg-zinc-800 rounded-lg flex items-center justify-center text-4xl">🎬</div>`}
+<h3 class="font-bold mt-2 truncate">${m.name} <span class="text-xs text-gray-500">${m.year||''}</span></h3>
+<p class="text-xs text-yellow-400">⭐ ${m.rating||'N/A'} • ${m.cat}</p>
+<p class="text-xs font-bold mt-1 ${mustP>=50?'text-green-400':'text-blue-400'}">${verdict} ${mustP}%</p>
+<div class="flex gap-1 mt-2"><button onclick="vote(${m.id},'must')" class="flex-1 bg-green-900/50 text-green-300 py-1 rounded text-[11px]">Must ${m.must}</button><button onclick="vote(${m.id},'one')" class="flex-1 bg-blue-900/50 text-blue-300 py-1 rounded text-[11px]">One ${m.one}</button><button onclick="vote(${m.id},'bakar')" class="flex-1 bg-red-900/50 text-red-300 py-1 rounded text-[11px]">Bakar ${m.bakar}</button></div>
+</div>`
+}).join('');
 }
-
+function filterCat(c){
+document.querySelectorAll('.cat-btn').forEach(b=>b.className='cat-btn bg-zinc-800 px-4 py-2 rounded-full');
+event.target.className='cat-btn bg-purple-600 px-4 py-2 rounded-full';
+render(c);
+}
 async function loadAllPosters(){
-  for(let m of movies){
-    if(!m.poster){
-      let info = await getIMDbInfo(m.name);
-      m.poster = info.poster;
-      m.rating = info.rating;
-      m.year = info.year;
-      localStorage.setItem('jimmy_100_final', JSON.stringify(movies));
-      render(currentFilter);
-      await new Promise(r=>setTimeout(r, 800));
-    }
-  }
+for(let m of movies){
+if(!m.poster){
+let info=await getIMDbInfo(m.name);
+m.poster=info.poster; m.rating=info.rating; m.year=info.year;
+localStorage.setItem('jimmy_100_final',JSON.stringify(movies));
+render(currentFilter);
+await new Promise(r=>setTimeout(r,800));
 }
-
+}
+}
 render();
 loadAllPosters();
-</script>
-render();
 </script>
 </body>
 </html>
