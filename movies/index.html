@@ -23,18 +23,7 @@
 </div>
 <div id="movieGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
 </div>
-  <!-- Trailer Modal -->
-<div id="trailerModal" class="fixed inset-0 bg-black/90 hidden z-50 flex items-center justify-center p-4" onclick="closeTrailer()">
-  <div class="bg-zinc-900 rounded-xl max-w-3xl w-full p-3" onclick="event.stopPropagation()">
-    <div class="flex justify-between items-center mb-2">
-      <h2 id="trailerTitle" class="font-bold"></h2>
-      <button onclick="closeTrailer()" class="bg-red-600 px-3 py-1 rounded-full">✕ Close</button>
-    </div>
-    <div class="aspect-video bg-black rounded-lg overflow-hidden">
-      <iframe id="trailerFrame" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
-    </div>
-  </div>
-</div>
+  
 <script>
 const OMDB_KEY="thewdb";
 async function getIMDbInfo(name){
@@ -182,15 +171,10 @@ document.querySelectorAll('.cat-btn').forEach(b=>b.className='cat-btn bg-zinc-80
 event.target.className='cat-btn bg-purple-600 px-4 py-2 rounded-full';
 render(c);
 }
-  function showTrailer(name){
-  document.getElementById('trailerTitle').innerText = name + " - Official Trailer";
-  document.getElementById('trailerFrame').src = `https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(name + " official trailer")}`;
-  document.getElementById('trailerModal').classList.remove('hidden');
-}
-function closeTrailer(){
-  document.getElementById('trailerModal').classList.add('hidden');
-  document.getElementById('trailerFrame').src = "";
-}
+    function showTrailer(name){
+    let url = `https://www.youtube.com/results?search_query=${encodeURIComponent(name + " official trailer")}`;
+    window.open(url, "_blank");
+    }
 async function loadAllPosters(){
 for(let m of movies){
 if(!m.poster){
