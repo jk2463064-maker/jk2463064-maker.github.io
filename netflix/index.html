@@ -3,74 +3,67 @@
 <title>NovaStream - Full Movies</title>
 <style>
 *{box-sizing:border-box;margin:0}body{background:#141414;color:#fff;font-family:system-ui}
-.nav{padding:14px 20px;background:#000;display:flex;justify-content:space-between;position:sticky;top:0;z-index:10}
-.logo{color:#E50914;font-weight:900;font-size:22px}
+.nav{padding:12px 16px;background:#000;display:flex;gap:12px;align-items:center;position:sticky;top:0;z-index:10}
+.logo{color:#E50914;font-weight:900;font-size:20px}
+.search{flex:1;max-width:300px;padding:8px 12px;border-radius:20px;border:0;background:#222;color:#fff;outline:none}
+.cat{display:flex;gap:8px;padding:10px 16px;overflow-x:auto;background:#000}
+.cat button{padding:6px 14px;border-radius:20px;border:1px solid #333;background:#222;color:#aaa;white-space:nowrap}
+.cat button.active{background:#E50914;color:#fff;border-color:#E50914}
 .hero{height:56vw;max-height:390px;background:#000;position:relative}
 .hero iframe{width:100%;height:100%;border:0}
 .over{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,#141414);padding:20px}
 .row{padding:16px}.scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:10px}
-.card{min-width:135px;max-width:135px;background:#222;border-radius:8px;overflow:hidden;cursor:pointer;border:2px solid transparent}
+.card{min-width:135px;max-width:135px;background:#222;border-radius:8px;overflow:hidden;cursor:pointer;border:2px solid transparent;flex-shrink:0}
 .card.active{border-color:#E50914;transform:scale(1.05)}
 .card img{width:100%;height:190px;object-fit:cover;background:#333}
 .card.t{padding:8px;font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.addbar{padding:12px;background:#000;position:sticky;bottom:0;display:flex;gap:6px}
+.addbar input{flex:1;padding:10px;border-radius:6px;border:0;background:#222;color:#fff;font-size:12px}
+.addbar select{padding:10px;border-radius:6px;border:0;background:#222;color:#fff}
+.addbar button{background:#E50914;color:#fff;padding:10px 16px;border:0;border-radius:6px;font-weight:900}
 </style></head><body>
-<div class="nav"><div class="logo">NOVASTREAM</div><div style="color:#666;font-size:11px">FULL MOVIES</div></div>
+<div class="nav"><div class="logo">NOVASTREAM</div><input id="search" class="search" placeholder="🔍 Search movie..." oninput="doSearch()"></div>
+<div class="cat" id="cats"><button class="active" onclick="filterCat('All',this)">All</button><button onclick="filterCat('Bollywood',this)">Bollywood</button><button onclick="filterCat('South',this)">South</button><button onclick="filterCat('Hollywood',this)">Hollywood</button><button onclick="filterCat('Demo',this)">Demo</button></div>
 
-<div class="hero">
-<iframe id="mainPlayer" src="https://www.youtube.com/embed/aqz-KE-bpKQ?autoplay=1&mute=1" allowfullscreen></iframe>
-<div class="over"><h2 id="mtitle">Big Buck Bunny - Full Movie</h2></div>
-</div>
+<div class="hero"><iframe id="mainPlayer" src="https://www.youtube.com/embed/aqz-KE-bpKQ?autoplay=1&mute=1" allowfullscreen></iframe><div class="over"><h2 id="mtitle">Big Buck Bunny - Full Movie</h2></div></div>
 
-<div class="row"><h3>🔥 Full Movies - No Trailer</h3><div class="scroll" id="list"></div></div>
+<div class="row"><h3 id="rowTitle">🔥 Full Movies - No Trailer</h3><div class="scroll" id="list"></div></div>
 
-<div style="padding:16px;background:#000;position:sticky;bottom:0;display:flex;gap:8px">
-  <input id="mName" placeholder="Movie Name" style="flex:1;padding:10px;border-radius:6px;border:0;background:#222;color:#fff">
-  <input id="mYt" placeholder="YouTube ID" style="flex:1;padding:10px;border-radius:6px;border:0;background:#222;color:#fff">
-  <button onclick="addNew()" style="background:#E50914;color:#fff;padding:10px 16px;border:0;border-radius:6px;font-weight:900">ADD</button>
+<div class="addbar">
+  <input id="mName" placeholder="Name"><select id="mCat"><option>Bollywood</option><option>South</option><option>Hollywood</option><option>Demo</option></select><input id="mYt" placeholder="YouTube ID/Link"><button onclick="addNew()">ADD</button>
 </div>
 
 <script>
 let movies=[
-{name:"Big Buck Bunny - Full",time:"10:34",yt:"aqz-KE-bpKQ",img:"https://img.youtube.com/vi/aqz-KE-bpKQ/hqdefault.jpg"},
-{name:"Sintel - Full Movie",time:"14:48",yt:"eRsGyueVLvQ",img:"https://img.youtube.com/vi/eRsGyueVLvQ/hqdefault.jpg"},
-{name:"Tears of Steel - Full",time:"12:14",yt:"R6MlUcmOul8",img:"https://img.youtube.com/vi/R6MlUcmOul8/hqdefault.jpg"},
-{name:"Elephants Dream - Full",time:"10:54",yt:"TLkAORQI1g",img:"https://img.youtube.com/vi/TLkAORQI1g/hqdefault.jpg"},
-{name:"Night of Living Dead",time:"1h 36m",yt:"H91BxkQl8y4",img:"https://img.youtube.com/vi/H91BxkQl8y4/hqdefault.jpg"},
-{name:"Teri New Movie",time:"Full",yt:"N58vVasIyko",img:"https://img.youtube.com/vi/N58vVasIyko/hqdefault.jpg"}
+{name:"Big Buck Bunny",time:"10:34",yt:"aqz-KE-bpKQ",cat:"Demo",img:"https://img.youtube.com/vi/aqz-KE-bpKQ/hqdefault.jpg"},
+{name:"Sintel",time:"14:48",yt:"eRsGyueVLvQ",cat:"Demo",img:"https://img.youtube.com/vi/eRsGyueVLvQ/hqdefault.jpg"},
+{name:"Your Movie 1",time:"Full",yt:"N58vVasIyko",cat:"Bollywood",img:"https://img.youtube.com/vi/N58vVasIyko/hqdefault.jpg"},
+{name:"Your Movie 2",time:"Full",yt:"My5L3qLhewg",cat:"Bollywood",img:"https://img.youtube.com/vi/My5L3qLhewg/hqdefault.jpg"}
 ];
-
-let saved=localStorage.getItem('nova_movies');
-if(saved){ movies=JSON.parse(saved); }
+let curCat='All'; let curSearch='';
+let saved=localStorage.getItem('nova_movies_v2'); if(saved) movies=JSON.parse(saved);
 
 function render(){
- document.getElementById('list').innerHTML=movies.map((m,i)=>`
-  <div class="card ${i==0?'active':''}" id="c${i}" onclick="play(${i})">
+ let filtered=movies.filter(m=>{
+  let okCat=curCat==='All'||m.cat===curCat;
+  let okSearch=m.name.toLowerCase().includes(curSearch.toLowerCase());
+  return okCat&&okSearch;
+ });
+ document.getElementById('list').innerHTML=filtered.map((m,i)=>`
+  <div class="card" onclick="playById('${m.yt}','${m.name.replace(/'/g,"")}')">
    <img src="${m.img}" onerror="this.src='https://placehold.co/135x190/E50914/fff?text=${encodeURIComponent(m.name)}'">
-   <div class="t">${m.name}<br><span style="color:#999;font-size:9px">${m.time}</span></div>
-  </div>`).join('');
+   <div class="t">${m.name}<br><span style="color:#999;font-size:9px">${m.cat} • ${m.time}</span></div>
+  </div>`).join('') || `<div style="padding:40px;color:#666">No movies found</div>`;
 }
-function play(i){
- let m=movies[i];
- document.getElementById('mtitle').innerText=m.name;
- document.getElementById('mainPlayer').src=`https://www.youtube.com/embed/${m.yt}?autoplay=1`;
- document.querySelectorAll('.card').forEach(c=>c.classList.remove('active'));
- document.getElementById('c'+i).classList.add('active');
- window.scrollTo(0,0);
-}
+function playById(yt,name){document.getElementById('mtitle').innerText=name;document.getElementById('mainPlayer').src=`https://www.youtube.com/embed/${yt}?autoplay=1`;window.scrollTo(0,0);}
+function filterCat(c,btn){curCat=c;document.querySelectorAll('.cat button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');render();}
+function doSearch(){curSearch=document.getElementById('search').value;render();}
 function addNew(){
-  let name=document.getElementById('mName').value.trim();
-  let yt=document.getElementById('mYt').value.trim();
-  if(!yt) return alert("Link daal pehle!");
-  if(yt.includes("youtu.be/")) yt=yt.split("youtu.be/")[1].split("?")[0];
-  if(yt.includes("v=")) yt=yt.split("v=")[1].split("&")[0];
-  if(!name) name="Movie "+yt;
-  movies.push({name:name, yt:yt, time:"Full", img:`https://img.youtube.com/vi/${yt}/hqdefault.jpg`});
-  localStorage.setItem('nova_movies', JSON.stringify(movies));
-  render();
-  document.getElementById('mName').value="";
-  document.getElementById('mYt').value="";
-  alert("Ho gayi add!");
+ let name=document.getElementById('mName').value.trim(); let cat=document.getElementById('mCat').value; let yt=document.getElementById('mYt').value.trim();
+ if(!yt) return alert("Link daal!"); if(yt.includes("youtu.be/")) yt=yt.split("youtu.be/")[1].split("?")[0]; if(yt.includes("v=")) yt=yt.split("v=")[1].split("&")[0];
+ if(!name) name="Movie "+yt;
+ movies.push({name,yt,cat,time:"Full",img:`https://img.youtube.com/vi/${yt}/hqdefault.jpg`}); localStorage.setItem('nova_movies_v2',JSON.stringify(movies)); render();
+ document.getElementById('mName').value=""; document.getElementById('mYt').value=""; alert("Added to "+cat);
 }
 render();
-</script>
-</body></html>
+</script></body></html>
