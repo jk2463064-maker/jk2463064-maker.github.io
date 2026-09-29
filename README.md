@@ -12,4 +12,5 @@ Live at: https://jk2463064-maker.github.io
   - [SSC Mocks](https://jk2463064-maker.github.io/ssc/) - live ✅ NEW 📚
 - [Music Hub](https://jk2463064-maker.github.io/music/) - live ✅ NEW 🎵
 - - [YT Thumbnail Downloader](https://jk2463064-maker.github.io/yt-thumbnail/) - live ✅ NEW 🖼️
+  - https://github.com/jk2463064-maker/jk2463064-maker.github.io/releases/download/v1.0.0/_Nova_stream_20225085.apk
 Made with ❤️ by Jimmy | 19 | Dhampur, UP
