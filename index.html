@@ -1,55 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NovaStream - Full Movies</title>
+<title>NovaStream</title>
 <style>
-*{box-sizing:border-box;margin:0} body{background:#141414;color:#fff;font-family:system-ui}
-.nav{padding:12px 16px;background:#000;display:flex;gap:12px;align-items:center;position:sticky;top:0;z-index:10}
-.logo{color:#E50914;font-weight:900;font-size:20px}.search{flex:1;max-width:350px;padding:8px 14px;border-radius:20px;border:0;background:#222;color:#fff}
-.cat{display:flex;gap:8px;padding:10px 16px;overflow-x:auto;background:#000}.cat button{padding:6px 14px;border-radius:20px;border:1px solid #333;background:#222;color:#aaa;cursor:pointer}.cat button.active{background:#E50914;color:#fff}
-.hero{height:56vw;max-height:420px;background:#000;position:relative}.hero iframe{width:100%;height:100%;border:0}.over{position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(transparent,#000)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;padding:16px}
-.card{background:#222;border-radius:8px;overflow:hidden;cursor:pointer}.card img{width:100%;aspect-ratio:2/3;object-fit:cover}.card p{padding:6px 8px;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+*{box-sizing:border-box;margin:0}body{background:#111;color:#fff;font-family:system-ui}
+.nav{background:#000;padding:12px;display:flex;gap:10px;position:sticky;top:0;z-index:9}
+.logo{color:#E50914;font-weight:900}.search{flex:1;padding:8px 12px;border-radius:20px;border:0;background:#222;color:#fff}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:12px}
+.card{background:#222;border-radius:8px;overflow:hidden;cursor:pointer}
+.card img{width:100%;aspect-ratio:2/3;object-fit:cover;background:#333}
+.card p{padding:6px;font-size:13px}
+.hero{width:100%;aspect-ratio:16/9;background:#000;display:flex;align-items:center;justify-content:center}
+.hero iframe{width:100%;height:100%;border:0}
+.unavail{background:#222;padding:20px;text-align:center}
+button.yt{margin-top:10px;padding:8px 16px;background:#E50914;border:0;color:#fff;border-radius:20px}
 </style>
 </head>
 <body>
-<div class="nav"><div class="logo">NOVASTREAM</div><input id="search" class="search" placeholder="Search 1000+ movies..."></div>
-<div class="cat"><button class="active" data-c="All">All</button><button data-c="Action">Action</button><button data-c="South">South</button><button data-c="Drama">Drama</button></div>
-<div class="hero"><iframe id="player" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe><div class="over"><h2 id="heroTitle">Loading...</h2></div></div>
+<div class="nav"><div class="logo">NOVASTREAM</div><input id="search" class="search" placeholder="Search..."></div>
+<div class="hero" id="heroBox"><p>Select a movie below</p></div>
 <div class="grid" id="grid"></div>
 <script>
-let allMovies=[], filtered=[], page=0, perPage=40;
-const grid=document.getElementById('grid'), player=document.getElementById('player'), heroTitle=document.getElementById('heroTitle');
+let allMovies=[];
 async function init(){
- const res=await fetch('movies.json?v='+Date.now());
- allMovies=await res.json();
- filtered=allMovies;
- renderMore(true);
- if(allMovies[0]) playMovie('https://www.youtube.com/embed/'+allMovies[0].id, allMovies[0].title);
+ try{
+  const r=await fetch('movies.json?v='+Date.now());
+  allMovies=await r.json();
+  render(allMovies);
+ }catch(e){
+  document.getElementById('grid').innerHTML='<p style="padding:20px">movies.json me error hai - comma check karo</p>';
+ }
 }
-function renderMore(reset=false){
- if(reset){ grid.innerHTML=''; page=0; }
- const next=filtered.slice(page*perPage,(page+1)*perPage);
- next.forEach(m=>{
-  const d=document.createElement('div'); d.className='card';
-  d.innerHTML=`<img loading="lazy" src="https://img.youtube.com/vi/${m.id}/src="https://img.youtube.com/vi/${m.id}/mqdefault.jpg""><p>${m.title}</p>`;
-  d.onclick=()=>playMovie('https://www.youtube.com/embed/'+m.id, m.title);
-  grid.appendChild(d);
- }); page++;
+function render(list){
+ const g=document.getElementById('grid');
+ g.innerHTML='';
+ list.forEach(m=>{
+  const d=document.createElement('div');d.className='card';
+  d.innerHTML=`<img src="https://img.youtube.com/vi/${m.id}/mqdefault.jpg" onerror="this.src='https://i.ytimg.com/vi/${m.id}/hqdefault.jpg'"><p>${m.title}</p>`;
+  d.onclick=()=>play(m);
+  g.appendChild(d);
+ });
 }
-function playMovie(v,t){ heroTitle.innerText=t; player.src=v+'?rel=0&autoplay=1'; window.scrollTo(0,0); }
+function play(m){
+ const box=document.getElementById('heroBox');
+ // Try embed, agar block hai toh button dikhao
+ box.innerHTML=`<iframe src="https://www.youtube.com/embed/${m.id}?rel=0" allowfullscreen allow="autoplay; encrypted-media"></iframe>`;
+ // 2 sec me check agar video load nahi hui toh direct link
+ setTimeout(()=>{
+  box.innerHTML+=`<div class="unavail"><p>${m.title}</p><button class="yt" onclick="window.open('https://www.youtube.com/watch?v=${m.id}','_blank')">▶ Watch on YouTube</button><p style="font-size:12px;color:#aaa;margin-top:8px">Embed blocked by YouTube</p></div>`;
+ },2500);
+ window.scrollTo(0,0);
+}
 document.getElementById('search').addEventListener('input',e=>{
  const q=e.target.value.toLowerCase();
- filtered=allMovies.filter(m=>m.title.toLowerCase().includes(q));
- renderMore(true);
+ render(allMovies.filter(m=>m.title.toLowerCase().includes(q)));
 });
-document.querySelectorAll('.cat button').forEach(b=>b.addEventListener('click',()=>{
- document.querySelectorAll('.cat button').forEach(x=>x.classList.remove('active')); b.classList.add('active');
- const c=b.dataset.c; filtered=c==='All'?allMovies:allMovies.filter(m=>m.cat===c); renderMore(true);
-}));
-window.addEventListener('scroll',()=>{ if(window.innerHeight+window.scrollY>=document.body.offsetHeight-500) renderMore(); });
 init();
 </script>
 </body>
