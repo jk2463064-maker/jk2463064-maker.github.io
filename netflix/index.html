@@ -45,7 +45,14 @@ body{background:#141414;color:#fff;font-family:system-ui}
 </div>
 
 <div class="hero">
-  <iframe id="mainPlayer" src="https://www.youtube.com/embed/aqz-KE-bpKQ?autoplay=1&mute=1" allowfullscreen></iframe>
+  <iframe 
+  id="mainPlayer" 
+  src="https://www.youtube-nocookie.com/embed/aqz-KE-bpKQ?autoplay=1&mute=1&playsinline=1" 
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
   <div class="over"><h2 id="mtitle">Big Buck Bunny - Full Movie</h2></div>
 </div>
 
@@ -153,24 +160,13 @@ function render(){
   }).join('') || `<div style="grid-column:1/-1;padding:40px;text-align:center;color:#666">No movies found</div>`;
 }
 
-function playMovie(ytOrQuery, name){
+function playMovie(ytId, name) {
   document.getElementById('mtitle').innerText = name;
   let player = document.getElementById('mainPlayer');
-  let ytUrl = "";
-
-  if (ytOrQuery.startsWith('QUERY:')) {
-    const q = ytOrQuery.replace('QUERY:', '');
-    // Open directly on YouTube search if embed fails
-    ytUrl = `https://www.youtube.com/results?search_query=${q}`;
-    document.getElementById('mtitle').innerHTML = `${name} 
-      <a href="${ytUrl}" target="_blank" style="font-size:13px;color:#E50914;margin-left:10px;text-decoration:underline;">[Watch on YouTube]</a>`;
-    player.src = `https://www.youtube.com/embed?listType=search&list=${q}&autoplay=1`;
-  } else {
-    ytUrl = `https://www.youtube.com/watch?v=${ytOrQuery}`;
-    document.getElementById('mtitle').innerHTML = `${name} 
-      <a href="${ytUrl}" target="_blank" style="font-size:13px;color:#E50914;margin-left:10px;text-decoration:underline;">[Open in YouTube]</a>`;
-    player.src = `https://www.youtube.com/embed/${ytOrQuery}?autoplay=1&origin=${window.location.origin}`;
-  }
+  
+  // youtube-nocookie और origin पैरामीटर जोड़ें
+  player.src = `https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&playsinline=1&rel=0`;
+  
   window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
