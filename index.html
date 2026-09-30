@@ -34,7 +34,7 @@ function renderMore(reset=false){
  const next=filtered.slice(page*perPage,(page+1)*perPage);
  next.forEach(m=>{
   const d=document.createElement('div'); d.className='card';
-  d.innerHTML=`<img loading="lazy" src="https://img.youtube.com/vi/${m.id}/hqdefault.jpg"><p>${m.title}</p>`;
+  d.innerHTML=`<img loading="lazy" src="https://img.youtube.com/vi/${m.id}/src="https://img.youtube.com/vi/${m.id}/mqdefault.jpg""><p>${m.title}</p>`;
   d.onclick=()=>playMovie('https://www.youtube.com/embed/'+m.id, m.title);
   grid.appendChild(d);
  }); page++;
