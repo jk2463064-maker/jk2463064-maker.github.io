@@ -3,34 +3,49 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NovaStream</title>
+<title>NovaStream - Movies + Tools</title>
 <style>
-*{box-sizing:border-box;margin:0}body{background:#111;color:#fff;font-family:system-ui}
-.nav{background:#000;padding:12px;display:flex;gap:10px;position:sticky;top:0;z-index:9}
-.logo{color:#E50914;font-weight:900}.search{flex:1;padding:8px 12px;border-radius:20px;border:0;background:#222;color:#fff}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:12px}
-.card{background:#222;border-radius:8px;overflow:hidden;cursor:pointer}
-.card img{width:100%;aspect-ratio:2/3;object-fit:cover;background:#333}
-.card p{padding:6px;font-size:13px}
-.hero{width:100%;aspect-ratio:16/9;background:#000;display:flex;align-items:center;justify-content:center}
-.hero iframe{width:100%;height:100%;border:0}
-.unavail{background:#222;padding:20px;text-align:center}
-button.yt{margin-top:10px;padding:8px 16px;background:#E50914;border:0;color:#fff;border-radius:20px}
+*{margin:0;box-sizing:border-box}body{background:#0f0f0f;color:#fff;font-family:system-ui}
+.nav{background:#000;padding:12px 16px;display:flex;gap:12px;align-items:center;position:sticky;top:0;z-index:10}
+.logo{color:#E50914;font-weight:900;font-size:20px}.search{flex:1;padding:8px 14px;border-radius:20px;border:0;background:#222;color:#fff}
+.tabs{display:flex;gap:8px;padding:10px 16px;background:#000}.tabs button{padding:8px 18px;border-radius:20px;border:1px solid #333;background:#222;color:#aaa}.tabs button.active{background:#E50914;color:#fff;border-color:#E50914}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:16px}
+.card{background:#1e1e1e;border-radius:12px;overflow:hidden;cursor:pointer;border:1px solid #2a2a2a}
+.card img{width:100%;aspect-ratio:16/9;object-fit:cover;background:#222}.card p{padding:10px;font-size:13px}
+.tools-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:16px}
+.tool{background:#1e1e1e;padding:20px;border-radius:12px;text-align:center;border:1px solid #2a2a2a}
 </style>
 </head>
 <body>
-<div class="nav"><div class="logo">NOVASTREAM</div><input id="search" class="search" placeholder="Search..."></div>
-<div class="hero" id="heroBox"><p>Select a movie below</p></div>
+<div class="nav"><div class="logo">NOVASTREAM</div><input id="search" class="search" placeholder="Search movies or tools..."></div>
+<div class="tabs">
+<button class="active" onclick="showTab('movies',this)">Movies</button>
+<button onclick="showTab('tools',this)">My Tools</button>
+</div>
+
+<div id="moviesTab">
 <div class="grid" id="grid"></div>
+</div>
+
+<div id="toolsTab" style="display:none">
+<div class="tools-grid">
+<div class="tool">📄 PDF Tools</div>
+<div class="tool">🖼️ Image Tools</div>
+<div class="tool">🎥 Video Tools</div>
+<div class="tool">🔗 Your Old Tool 1</div>
+</div>
+<p style="text-align:center;color:#666;margin-top:20px">Yaha apne purane tools ke naam likh de, mai link jod dunga</p>
+</div>
+
 <script>
 let allMovies=[];
-async function init(){
+async function load(){
  try{
   const r=await fetch('movies.json?v='+Date.now());
   allMovies=await r.json();
   render(allMovies);
  }catch(e){
-  document.getElementById('grid').innerHTML='<p style="padding:20px">movies.json me error hai - comma check karo</p>';
+  document.getElementById('grid').innerHTML='<p style="padding:20px">movies.json me comma ka error hai</p>';
  }
 }
 function render(list){
@@ -38,26 +53,22 @@ function render(list){
  g.innerHTML='';
  list.forEach(m=>{
   const d=document.createElement('div');d.className='card';
-  d.innerHTML=`<img src="https://img.youtube.com/vi/${m.id}/mqdefault.jpg" onerror="this.src='https://i.ytimg.com/vi/${m.id}/hqdefault.jpg'"><p>${m.title}</p>`;
-  d.onclick=()=>play(m);
+  d.innerHTML=`<img src="https://img.youtube.com/vi/${m.id}/mqdefault.jpg" onerror="this.src='https://via.placeholder.com/320x180?text=${m.title}'"><p>${m.title}</p>`;
+  d.onclick=()=>{ window.open('https://www.youtube.com/watch?v=${m.id}','_blank'); };
   g.appendChild(d);
  });
 }
-function play(m){
- const box=document.getElementById('heroBox');
- // Try embed, agar block hai toh button dikhao
- box.innerHTML=`<iframe src="https://www.youtube.com/embed/${m.id}?rel=0" allowfullscreen allow="autoplay; encrypted-media"></iframe>`;
- // 2 sec me check agar video load nahi hui toh direct link
- setTimeout(()=>{
-  box.innerHTML+=`<div class="unavail"><p>${m.title}</p><button class="yt" onclick="window.open('https://www.youtube.com/watch?v=${m.id}','_blank')">▶ Watch on YouTube</button><p style="font-size:12px;color:#aaa;margin-top:8px">Embed blocked by YouTube</p></div>`;
- },2500);
- window.scrollTo(0,0);
+function showTab(name,btn){
+ document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
+ btn.classList.add('active');
+ document.getElementById('moviesTab').style.display=name==='movies'?'block':'none';
+ document.getElementById('toolsTab').style.display=name==='tools'?'block':'none';
 }
 document.getElementById('search').addEventListener('input',e=>{
  const q=e.target.value.toLowerCase();
  render(allMovies.filter(m=>m.title.toLowerCase().includes(q)));
 });
-init();
+load();
 </script>
 </body>
 </html>
