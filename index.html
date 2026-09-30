@@ -1,74 +1,20 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NovaStream - Movies + Tools</title>
-<style>
-*{margin:0;box-sizing:border-box}body{background:#0f0f0f;color:#fff;font-family:system-ui}
-.nav{background:#000;padding:12px 16px;display:flex;gap:12px;align-items:center;position:sticky;top:0;z-index:10}
-.logo{color:#E50914;font-weight:900;font-size:20px}.search{flex:1;padding:8px 14px;border-radius:20px;border:0;background:#222;color:#fff}
-.tabs{display:flex;gap:8px;padding:10px 16px;background:#000}.tabs button{padding:8px 18px;border-radius:20px;border:1px solid #333;background:#222;color:#aaa}.tabs button.active{background:#E50914;color:#fff;border-color:#E50914}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:16px}
-.card{background:#1e1e1e;border-radius:12px;overflow:hidden;cursor:pointer;border:1px solid #2a2a2a}
-.card img{width:100%;aspect-ratio:16/9;object-fit:cover;background:#222}.card p{padding:10px;font-size:13px}
-.tools-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:16px}
-.tool{background:#1e1e1e;padding:20px;border-radius:12px;text-align:center;border:1px solid #2a2a2a}
-</style>
-</head>
-<body>
-<div class="nav"><div class="logo">NOVASTREAM</div><input id="search" class="search" placeholder="Search movies or tools..."></div>
-<div class="tabs">
-<button class="active" onclick="showTab('movies',this)">Movies</button>
-<button onclick="showTab('tools',this)">My Tools</button>
-</div>
-
-<div id="moviesTab">
-<div class="grid" id="grid"></div>
-</div>
-
-<div id="toolsTab" style="display:none">
-<div class="tools-grid">
-<div class="tool">📄 PDF Tools</div>
-<div class="tool">🖼️ Image Tools</div>
-<div class="tool">🎥 Video Tools</div>
-<div class="tool">🔗 Your Old Tool 1</div>
-</div>
-<p style="text-align:center;color:#666;margin-top:20px">Yaha apne purane tools ke naam likh de, mai link jod dunga</p>
-</div>
-
-<script>
-let allMovies=[];
-async function load(){
- try{
-  const r=await fetch('movies.json?v='+Date.now());
-  allMovies=await r.json();
-  render(allMovies);
- }catch(e){
-  document.getElementById('grid').innerHTML='<p style="padding:20px">movies.json me comma ka error hai</p>';
- }
-}
-function render(list){
- const g=document.getElementById('grid');
- g.innerHTML='';
- list.forEach(m=>{
-  const d=document.createElement('div');d.className='card';
-  d.innerHTML=`<img src="https://img.youtube.com/vi/${m.id}/mqdefault.jpg" onerror="this.src='https://via.placeholder.com/320x180?text=${m.title}'"><p>${m.title}</p>`;
-  d.onclick=()=>{ window.open('https://www.youtube.com/watch?v=${m.id}','_blank'); };
-  g.appendChild(d);
- });
-}
-function showTab(name,btn){
- document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
- btn.classList.add('active');
- document.getElementById('moviesTab').style.display=name==='movies'?'block':'none';
- document.getElementById('toolsTab').style.display=name==='tools'?'block':'none';
-}
-document.getElementById('search').addEventListener('input',e=>{
- const q=e.target.value.toLowerCase();
- render(allMovies.filter(m=>m.title.toLowerCase().includes(q)));
-});
-load();
-</script>
-</body>
-</html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Jimmy's Portfolio</title>
+<style>body{background:#0e1117;color:#c9d1d9;font-family:system-ui;padding:20px;max-width:700px;margin:auto}a{color:#58a6ff;text-decoration:none}h1{color:#fff}li{margin:8px 0}</style>
+</head><body>
+<h1>🔗 Jimmy's Portfolio 🚀</h1>
+<p>Live at: <a href="https://jk2463064-maker.github.io">https://jk2463064-maker.github.io</a></p>
+<h2>🔗 Tools</h2>
+<ul>
+<li><a href="/insta/">Insta Video Downloader</a> - live ✅</li>
+<li><a href="/password/">Password Generator</a> - live ✅</li>
+<li><a href="/qr/">QR Code Generator</a> - live ✅</li>
+<li><a href="/insta-fonts/">Insta Fonts</a> - live ✅</li>
+<li><a href="/netflix/">Movie Hub</a> - live ✅ NEW 🎬</li>
+<li><a href="/ssc/">SSC Mocks</a> - live ✅ NEW 📚</li>
+<li><a href="/music/">Music Hub</a> - live ✅ NEW 🎵</li>
+<li><a href="/yt-thumbnail/">YT Thumbnail Downloader</a> - live ✅ NEW 🖼️</li>
+<li><a href="https://github.com/jk2463064-maker/jk2463064-maker.github.io/releases/download/v1.0.0/_Nova_stream_20225085.apk">NovaStream APK</a> Made with ❤️ by Jimmy | 19 | Dhampur, UP</li>
+</ul>
+</body></html>
