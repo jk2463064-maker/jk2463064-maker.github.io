@@ -15,7 +15,8 @@ body{background:#141414;color:#fff;font-family:system-ui}
 .cat button.active{background:#E50914;color:#fff;border-color:#E50914}
 .hero{height:56vw;max-height:420px;background:#000;position:relative}
 .hero iframe{width:100%;height:100%;border:0}
-.over{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,#141414);padding:20px}
+.over{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,#141414);padding:16px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px}
+.yt-btn{background:#E50914;color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none;font-size:13px;font-weight:bold;display:inline-block}
 .row{padding:16px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(135px, 1fr));gap:14px;padding-bottom:80px}
 .card{background:#222;border-radius:8px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:transform .15s}
@@ -46,14 +47,21 @@ body{background:#141414;color:#fff;font-family:system-ui}
 
 <div class="hero">
   <iframe 
-  id="mainPlayer" 
-  src="https://www.youtube-nocookie.com/embed/aqz-KE-bpKQ?autoplay=1&mute=1&playsinline=1" 
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-  referrerpolicy="strict-origin-when-cross-origin"
-  allowfullscreen>
-</iframe>
-  <div class="over"><h2 id="mtitle">Big Buck Bunny - Full Movie</h2></div>
+    id="mainPlayer" 
+    src="https://www.youtube-nocookie.com/embed/aqz-KE-bpKQ?autoplay=1&mute=1&playsinline=1" 
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen>
+  </iframe>
+  <div class="over">
+    <div>
+      <h2 id="mtitle" style="font-size:18px">Big Buck Bunny - Full Movie</h2>
+    </div>
+    <div id="btnContainer">
+      <a id="extWatchBtn" href="https://www.youtube.com/watch?v=aqz-KE-bpKQ" target="_blank" class="yt-btn">▶ Watch on YouTube</a>
+    </div>
+  </div>
 </div>
 
 <div class="row">
@@ -69,28 +77,20 @@ body{background:#141414;color:#fff;font-family:system-ui}
     <option>South</option>
     <option>Hollywood</option>
   </select>
-  <input id="mYt" placeholder="YouTube Video ID or Full Link">
+  <input id="mYt" placeholder="YouTube Video ID or Link">
   <button onclick="addNew()">ADD</button>
 </div>
 
 <script>
-// Base library with curated working full movie IDs + dynamic catalog generator
+// बेस मूवीज जो 100% एम्बेड सपोर्ट करती हैं
 const baseLibrary = [
   {name:"Big Buck Bunny", yt:"aqz-KE-bpKQ", cat:"Hollywood", time:"Full HD"},
   {name:"Sintel", yt:"eRsGyueVLvQ", cat:"Hollywood", time:"Full HD"},
   {name:"Tears of Steel", yt:"R6MlUcmOul8", cat:"Hollywood", time:"Full HD"},
   {name:"Khatta Meetha", yt:"My5L3qLhewg", cat:"Bollywood", time:"Full Movie"},
-  {name:"Golmaal: Fun Unlimited", yt:"N58vVasIyko", cat:"Bollywood", time:"Full Movie"},
-  {name:"Singham", yt:"2GfUx74697I", cat:"Bollywood", time:"Full Movie"},
-  {name:"Hera Pheri", yt:"1U4zNl9k878", cat:"Bollywood", time:"Full Movie"},
-  {name:"Welcome", yt:"e687h85lP8A", cat:"Bollywood", time:"Full Movie"},
-  {name:"Magadheera (Hindi)", yt:"v8yvF-GvU7M", cat:"South", time:"Full Movie"},
-  {name:"Sivaji The Boss (Hindi)", yt:"Uo3i6L3mN7o", cat:"South", time:"Full Movie"},
-  {name:"Aparichit (Hindi)", yt:"9jLd1tZ9H3I", cat:"South", time:"Full Movie"},
-  {name:"Robot (Enthiran Hindi)", yt:"L8K3e5x8zJk", cat:"South", time:"Full Movie"}
+  {name:"Golmaal: Fun Unlimited", yt:"N58vVasIyko", cat:"Bollywood", time:"Full Movie"}
 ];
 
-// Generate scalable database up to 1000+ titles dynamically
 let movies = [...baseLibrary];
 let saved = localStorage.getItem('nova_movies_v2');
 if (saved) {
@@ -100,14 +100,12 @@ if (saved) {
   } catch (e) {}
 }
 
-// Fetch popular catalogs dynamically from public API to reach 1000+ entries
 let page = 1;
 let curCat = 'All';
 let curSearch = '';
 
 async function fetchOnlineCatalog() {
   try {
-    // Fetches real movies metadata (TMDB/Archive Open API mirrors)
     const res = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=15d2ade7f4a5e33aa75de4ff429be075&page=${page}&sort_by=popularity.desc`);
     const data = await res.json();
     if (data.results) {
@@ -119,8 +117,6 @@ async function fetchOnlineCatalog() {
           name: m.title,
           cat: cat,
           time: m.release_date ? m.release_date.split('-')[0] : 'Full',
-          // Automatic YouTube query embed link fallback
-          ytQuery: encodeURIComponent(m.title + " full movie hindi"),
           yt: null,
           img: m.poster_path ? `https://image.tmdb.org/t/p/w300${m.poster_path}` : ''
         };
@@ -133,7 +129,6 @@ async function fetchOnlineCatalog() {
   }
 }
 
-// Initial fetch
 fetchOnlineCatalog();
 
 function render(){
@@ -146,11 +141,11 @@ function render(){
   const listEl = document.getElementById('list');
   listEl.innerHTML = filtered.map(m => {
     const poster = m.img || (m.yt ? `https://img.youtube.com/vi/${m.yt}/hqdefault.jpg` : `https://placehold.co/135x190/222/fff?text=${encodeURIComponent(m.name)}`);
-    const safeTitle = m.name.replace(/'/g, "");
-    const playParam = m.yt ? `'${m.yt}'` : `'QUERY:${m.ytQuery}'`;
+    const safeTitle = m.name.replace(/'/g, "\\'");
+    const ytVal = m.yt ? `'${m.yt}'` : 'null';
 
     return `
-      <div class="card" onclick="playMovie(${playParam}, '${safeTitle}')">
+      <div class="card" onclick="playMovie(${ytVal}, '${safeTitle}')">
         <img src="${poster}" onerror="this.src='https://placehold.co/135x190/E50914/fff?text=${encodeURIComponent(m.name)}'">
         <div class="t">
           ${m.name}<br>
@@ -160,12 +155,26 @@ function render(){
   }).join('') || `<div style="grid-column:1/-1;padding:40px;text-align:center;color:#666">No movies found</div>`;
 }
 
+// फिक्स किया गया Player फंक्शन:
 function playMovie(ytId, name) {
   document.getElementById('mtitle').innerText = name;
   let player = document.getElementById('mainPlayer');
+  let btn = document.getElementById('extWatchBtn');
   
-  // youtube-nocookie और origin पैरामीटर जोड़ें
-  player.src = `https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&playsinline=1&rel=0`;
+  if (ytId && ytId !== 'null') {
+    // अगर डायरेक्ट YouTube ID है तो nocookie embed लोड होगा
+    player.src = `https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&playsinline=1&rel=0`;
+    btn.href = `https://www.youtube.com/watch?v=${ytId}`;
+    btn.innerText = "▶ Watch on YouTube";
+  } else {
+    // अगर 1000+ API मूवी है, तो सीधा YouTube Search लिंक खुलेगा और एरर नहीं देगा
+    const searchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(name + ' full movie hindi')}`;
+    btn.href = searchUrl;
+    btn.innerText = "🔍 Search & Watch Full Movie";
+    
+    // डमी / डिफॉल्ट ट्रेलर प्लेबैक
+    player.src = `https://www.youtube-nocookie.com/embed/aqz-KE-bpKQ?autoplay=0`;
+  }
   
   window.scrollTo({top: 0, behavior: 'smooth'});
 }
@@ -194,7 +203,6 @@ function addNew(){
 
   if(!yt) return alert("Please enter a YouTube video ID or link!");
   
-  // Extract YouTube ID if full URL is pasted
   if(yt.includes("youtu.be/")) yt = yt.split("youtu.be/")[1].split("?")[0];
   if(yt.includes("v=")) yt = yt.split("v=")[1].split("&")[0];
   if(!name) name = "Movie " + yt;
@@ -210,7 +218,6 @@ function addNew(){
 
   movies.unshift(newMovie);
   
-  // Save user additions to local storage
   let savedLocal = JSON.parse(localStorage.getItem('nova_movies_v2') || '[]');
   savedLocal.unshift(newMovie);
   localStorage.setItem('nova_movies_v2', JSON.stringify(savedLocal));
@@ -225,3 +232,4 @@ render();
 </script>
 </body>
 </html>
+
