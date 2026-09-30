@@ -2,86 +2,55 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="google-site-verification" content="YgGRuXWvq-O3c7xHXJBgNQ27NgH5OXOHntsB1Vqooyo" />
-<title>JimmyTools - All-in-One Free Tools</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NovaStream - Full Movies</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui,sans-serif}
-body{background:#f8f9ff;color:#0f172a}
-.top{background:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eef2ff;position:sticky;top:0;z-index:10}
-.logo{font-weight:900;font-size:22px;display:flex;align-items:center;gap:8px}
-.logo span{background:#7c3aed;color:#fff;padding:2px 8px;border-radius:8px;font-size:18px}
-.hero{text-align:center;padding:38px 20px 10px}
-.hero h1{font-size:32px;font-weight:900;letter-spacing:-1px}
-.hero p{color:#64748b;margin-top:8px}
-.search{max-width:520px;margin:22px auto;background:#f1f5f9;border-radius:30px;display:flex;align-items:center;padding:6px 6px 18px}
-.search input{flex:1;background:transparent;border:none;outline:none;padding:10px;font-size:15px}
-.search button{background:#7c3aed;color:#fff;border:none;border-radius:30px;padding:10px 18px}
-.section{max-width:900px;margin:24px auto;padding:0 16px}
-.section h2{font-size:18px;margin-bottom:14px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(min-width:600px){.grid{grid-template-columns:1fr 1fr 1fr}}
-.card{background:#fff;border-radius:20px;padding:22px 16px;text-align:center;text-decoration:none;color:#0f172a;box-shadow:0 4px 20px rgba(124,58,237,.06);border:1px solid #f1f5f9;transition:.2s}
-.card:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(124,58,237,.12)}
-.icon{width:56px;height:56px;background:#f5f3ff;border-radius:14px;display:grid;place-items:center;font-size:28px;margin:0 auto 12px}
-.card h3{font-size:14px;font-weight:800}
-.card p{font-size:11px;color:#64748b;margin-top:5px;line-height:1.3}
-.footer{text-align:center;padding:30px;color:#94a3b8;font-size:12px}
+*{box-sizing:border-box;margin:0} body{background:#141414;color:#fff;font-family:system-ui}
+.nav{padding:12px 16px;background:#000;display:flex;gap:12px;align-items:center;position:sticky;top:0;z-index:10}
+.logo{color:#E50914;font-weight:900;font-size:20px}.search{flex:1;max-width:350px;padding:8px 14px;border-radius:20px;border:0;background:#222;color:#fff}
+.cat{display:flex;gap:8px;padding:10px 16px;overflow-x:auto;background:#000}.cat button{padding:6px 14px;border-radius:20px;border:1px solid #333;background:#222;color:#aaa;cursor:pointer}.cat button.active{background:#E50914;color:#fff}
+.hero{height:56vw;max-height:420px;background:#000;position:relative}.hero iframe{width:100%;height:100%;border:0}.over{position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(transparent,#000)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;padding:16px}
+.card{background:#222;border-radius:8px;overflow:hidden;cursor:pointer}.card img{width:100%;aspect-ratio:2/3;object-fit:cover}.card p{padding:6px 8px;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 </style>
 </head>
 <body>
-
-<div class="top">
-<div class="logo"><span>⚒️</span> JimmyTools</div>
-<div style="color:#64748b;font-size:13px">Dhampur ❤️</div>
-</div>
-
-<div class="hero">
-<h1>All-in-One Free Tools</h1>
-<p>No login. No limits.</p>
-<div class="search">
-<input id="search" onkeyup="filter()" type="text" placeholder="Search for a tool...">
-<button>🔍</button>
-</div>
-</div>
-
-<div class="section">
-<h2>Popular Tools</h2>
-<div class="grid" id="grid">
-<a class="card" href="password/"><div class="icon">🔐</div><h3>Password Generator</h3><p>Secure random passwords</p></a>
-<a class="card" href="downloader/"><div class="icon">⬇️</div><h3>Downloader</h3><p>Save videos & files</p></a>
-<a class="card" href="qr/"><div class="icon">🔳</div><h3>QR Generator</h3><p>Create QR codes instantly</p></a>
-<a class="card" href="fonts/"><div class="icon">✒️</div><h3>Stylish Fonts</h3><p>Text font styles</p></a>
-<a class="card" href="movies/"><div class="icon">🎬</div><h3>Movies</h3><p>Find movie info & details</p></a>
-  <a class="card" href="ssc/"><div class="icon">📚</div><h3>SSC Mocks</h3><p>CGL • CHSL • MTS • Steno</p></a>
-  <div onclick="location.href='/music/'" style="background:#fff;border-radius:24px;padding:28px 16px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.04);cursor:pointer;">
-  <div style="background:#f3f0ff;width:72px;height:72px;border-radius:20px;display:grid;place-items:center;margin:0 auto 14px;font-size:34px">🎵</div>
-  <div style="font-weight:700;color:#1e293b;font-size:16px">Music Hub</div>
-  <div style="color:#94a3b8;font-size:13px;margin-top:4px">Free MP3 & Alternatives</div>
-  </div>
-    <div onclick="location.href='/yt-thumbnail/'" style="background:#fff;border-radius:24px;padding:28px 16px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.04);cursor:pointer;">
-  <div style="background:#ffeaea;width:72px;height:72px;border-radius:20px;display:grid;place-items:center;margin:0 auto 14px;font-size:34px">🖼️</div>
-  <div style="font-weight:700;color:#1e293b;font-size:16px">YT Thumbnail</div>
-  <div style="color:#94a3b8;font-size:13px;margin-top:4px">HD Download Free</div>
-    </div>
-  <div onclick="location.href='/netflix/'" style="background:#fff;border-radius:24px;padding:28px 16px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.04);cursor:pointer;">
-  <div style="background:#000;width:72px;height:72px;border-radius:20px;display:grid;place-items:center;margin:0 auto 14px;font-size:34px;color:#e50914">N</div>
-  <div style="font-weight:700;color:#1e293b;font-size:16px">NovaStream</div>
-  <div style="color:#94a3b8;font-size:13px;margin-top:4px">Netflix Clone • Action</div>
-  </div>
-</div>
-</div>
-</div>
-
-<div class="footer">Inspired by TinyWow.com | Built by Jimmy from Dhampur, UP - 2026</div>
-
+<div class="nav"><div class="logo">NOVASTREAM</div><input id="search" class="search" placeholder="Search 1000+ movies..."></div>
+<div class="cat"><button class="active" data-c="All">All</button><button data-c="Action">Action</button><button data-c="South">South</button><button data-c="Drama">Drama</button></div>
+<div class="hero"><iframe id="player" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe><div class="over"><h2 id="heroTitle">Loading...</h2></div></div>
+<div class="grid" id="grid"></div>
 <script>
-function filter(){
-let v=document.getElementById('search').value.toLowerCase();
-document.querySelectorAll('.card, div[onclick]').forEach(c=>{
-c.style.display=c.innerText.toLowerCase().includes(v)?'':'none';
-});
+let allMovies=[], filtered=[], page=0, perPage=40;
+const grid=document.getElementById('grid'), player=document.getElementById('player'), heroTitle=document.getElementById('heroTitle');
+async function init(){
+ const res=await fetch('movies.json?v='+Date.now());
+ allMovies=await res.json();
+ filtered=allMovies;
+ renderMore(true);
+ if(allMovies[0]) playMovie('https://www.youtube.com/embed/'+allMovies[0].id, allMovies[0].title);
 }
+function renderMore(reset=false){
+ if(reset){ grid.innerHTML=''; page=0; }
+ const next=filtered.slice(page*perPage,(page+1)*perPage);
+ next.forEach(m=>{
+  const d=document.createElement('div'); d.className='card';
+  d.innerHTML=`<img loading="lazy" src="https://img.youtube.com/vi/${m.id}/hqdefault.jpg"><p>${m.title}</p>`;
+  d.onclick=()=>playMovie('https://www.youtube.com/embed/'+m.id, m.title);
+  grid.appendChild(d);
+ }); page++;
+}
+function playMovie(v,t){ heroTitle.innerText=t; player.src=v+'?rel=0&autoplay=1'; window.scrollTo(0,0); }
+document.getElementById('search').addEventListener('input',e=>{
+ const q=e.target.value.toLowerCase();
+ filtered=allMovies.filter(m=>m.title.toLowerCase().includes(q));
+ renderMore(true);
+});
+document.querySelectorAll('.cat button').forEach(b=>b.addEventListener('click',()=>{
+ document.querySelectorAll('.cat button').forEach(x=>x.classList.remove('active')); b.classList.add('active');
+ const c=b.dataset.c; filtered=c==='All'?allMovies:allMovies.filter(m=>m.cat===c); renderMore(true);
+}));
+window.addEventListener('scroll',()=>{ if(window.innerHeight+window.scrollY>=document.body.offsetHeight-500) renderMore(); });
+init();
 </script>
 </body>
 </html>
