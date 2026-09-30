@@ -156,13 +156,20 @@ function render(){
 function playMovie(ytOrQuery, name){
   document.getElementById('mtitle').innerText = name;
   let player = document.getElementById('mainPlayer');
-  
+  let ytUrl = "";
+
   if (ytOrQuery.startsWith('QUERY:')) {
     const q = ytOrQuery.replace('QUERY:', '');
-    // Embeds YouTube search stream for any movie in the 1000+ catalog
+    // Open directly on YouTube search if embed fails
+    ytUrl = `https://www.youtube.com/results?search_query=${q}`;
+    document.getElementById('mtitle').innerHTML = `${name} 
+      <a href="${ytUrl}" target="_blank" style="font-size:13px;color:#E50914;margin-left:10px;text-decoration:underline;">[Watch on YouTube]</a>`;
     player.src = `https://www.youtube.com/embed?listType=search&list=${q}&autoplay=1`;
   } else {
-    player.src = `https://www.youtube.com/embed/${ytOrQuery}?autoplay=1`;
+    ytUrl = `https://www.youtube.com/watch?v=${ytOrQuery}`;
+    document.getElementById('mtitle').innerHTML = `${name} 
+      <a href="${ytUrl}" target="_blank" style="font-size:13px;color:#E50914;margin-left:10px;text-decoration:underline;">[Open in YouTube]</a>`;
+    player.src = `https://www.youtube.com/embed/${ytOrQuery}?autoplay=1&origin=${window.location.origin}`;
   }
   window.scrollTo({top: 0, behavior: 'smooth'});
 }
