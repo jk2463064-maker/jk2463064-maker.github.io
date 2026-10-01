@@ -1,2 +1,22 @@
-{"title":"Animal","id":"5xH0HfJHsaY","rating":"8.2","cat":"P Rating"},
-{"title":"Jawan","id":"Mwo1a4fRjts","rating":"7.5","cat":"P Rating"}
+[
+  {"title": "Animal", "id": "5xH0HfJHsaY", "rating": "8.1"},
+  {"title": "Jawan", "id": "Mwo1a4fRjts", "rating": "7.8"},
+  {"title": "Pathaan", "id": "n2sFsgyV2js", "rating": "7.5"},
+  {"title": "Gadar 2", "id": "8kmZ6KOSZ5g", "rating": "8.0"},
+  {"title": "KGF Chapter 2", "id": "Qah9sS_EO3E", "rating": "8.4"},
+  {"title": "Pushpa", "id": "Q1N4kk3g4YQ", "rating": "7.9"},
+  {"title": "RRR", "id": "f_vbAtFSEc0", "rating": "8.0"},
+  {"title": "Kantara", "id": "8mrVjKaMWcE", "rating": "8.3"},
+  {"title": "Brahmastra", "id": "V5jVntRVl-c", "rating": "7.0"},
+  {"title": "Drishyam 2", "id": "x0sx0B0fNfU", "rating": "8.2"},
+  {"title": "Bhool Bhulaiyaa 2", "id": "P2KRKxAb2ek", "rating": "7.2"},
+  {"title": "Liger", "id": "pH_vz34o5kQ", "rating": "6.5"},
+  {"title": "Vikram", "id": "OKBMCL-frPU", "rating": "8.3"},
+  {"title": "Shershaah", "id": "Q0FTXa9W3eE", "rating": "8.4"},
+  {"title": "Sooryavanshi", "id": "u9MvO15YxNk", "rating": "6.8"},
+  {"title": "Gangubai", "id": "JfbxcD6biok", "rating": "7.5"},
+  {"title": "Sam Bahadur", "id": "rZzNwcZzWq8", "rating": "7.8"},
+  {"title": "Tiger 3", "id": "vEjT_x8_K2A", "rating": "6.9"},
+  {"title": "Dunki", "id": "qN3wR2ruW2w", "rating": "7.3"},
+  {"title": "12th Fail", "id": "7vR1ZvZ1Y", "rating": "8.9"}
+]
